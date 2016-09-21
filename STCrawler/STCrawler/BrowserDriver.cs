@@ -18,10 +18,11 @@ namespace STCrawler
     {
         public static event ConsoleCancelEventHandler CancelKeyPress;
         private IWebDriver driver;
+        private IJavaScriptExecutor js;
         public IList<string> allWindowHandles = null;
-        string sitePath = "https://www.socialtrade.biz/user/TodayTask179.aspx", input = string.Empty;
-        int weLeftOn = 1, iterator = 1;
-        int reAttempts = 10;
+        string sitePath = "https://www.socialtrade.biz/user/TodayTask179.aspx", linkNo = string.Empty;
+        int weLeftOn = 1, iterator = 1, rownum = 1, reAttempts = 10;
+
         //public readonly ProgressBar pb = new ProgressBar();
 
         public void setup()
@@ -44,6 +45,9 @@ namespace STCrawler
 
             else
                 driver = new FirefoxDriver();
+
+            js = (IJavaScriptExecutor)driver;
+
 
             Console.Clear();
         }
@@ -73,7 +77,7 @@ namespace STCrawler
             }
             catch (Exception ex)
             {
-                Console.WriteLine(string.Format("Re-run attempts = {0}", reAttempts = int.Parse(STConfigurations.Default.ReAttempts)));
+                Console.WriteLine("Re-run attempts = {0}", reAttempts = int.Parse(STConfigurations.Default.ReAttempts));
                 testConnection();
                 for (int reAttemCntr = 0; reAttemCntr < reAttempts; reAttemCntr++)
                     //ExecuteClicks(strt: weLeftOn, singleTab: true);
@@ -113,8 +117,8 @@ namespace STCrawler
 
             switch (username.ToLower())
             {
-                case "ruchi": { username = "61053682"; password = "smile1510"; input = "784456146"; break; }
-                case "rmum": { username = "61081007"; password = "qwert123"; input = "784604577"; break; }
+                case "ruchi": { username = "61053682"; password = "smile1510"; linkNo = "784456146"; rownum = 250; break; }
+                case "rmum": { username = "61081007"; password = "qwert123"; linkNo = "784604577"; rownum = 250; break; }
                 default:
                     {
                         Console.WriteLine("Enter password: ");
@@ -143,6 +147,33 @@ namespace STCrawler
 
         }
 
+        public string[] AskOptions()
+        {
+            Console.Write("Pick you option:\n\r 1)Range \n\r 2)Specific Rows ");
+            var opt = Console.ReadLine();
+            Console.Clear();
+
+            if (rownum == 250  && opt.Equals("1"))
+            {
+                Console.Write("The start and iterator Values are: {0} and {1}\n Press 1\0 to continue !!!", rownum, iterator);
+                if (Console.ReadLine().Equals("0"))
+                {
+                    Console.WriteLine("Enter start point: ");
+                    rownum = int.Parse(Console.ReadLine());
+                    linkNo = ((250 - rownum) + int.Parse(linkNo)).ToString();
+                    Console.WriteLine("Enter iterator value: ");
+                    iterator = int.Parse(Console.ReadLine());
+                }
+            }
+
+            else if (opt.Equals("2"))
+            {
+                Console.WriteLine("Enter ur Row Numbers(separated by space): ");
+                linkNo = Console.ReadLine();
+            }
+            return linkNo.Split(' ');
+        }
+
         public void ExecuteClicks(int strt = 1, int stp = 250, bool singleTab = true)
         {
             var linkNo = "0";
@@ -153,7 +184,7 @@ namespace STCrawler
             for (int myCntr = strt; myCntr <= stp; myCntr++)
             {
                 linkNo = (myCntr + 1).ToString().Length < 2 ? string.Concat("0", myCntr + 1) : (myCntr + 1).ToString();
-                Console.WriteLine(string.Format("clicking row:{0} link", myCntr));
+                Console.WriteLine("clicking row:{0} link", myCntr);
                 try
                 {
                     {
@@ -181,11 +212,9 @@ namespace STCrawler
         {
             var linkNo = "0";
             var tabCnt = 0;
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
             while (strt != stp)
             {
-                linkNo = (strt + (1 * iterator)).ToString().Length < 2 ? string.Concat("0", strt + (1 * iterator)) : (strt + (1 * iterator)).ToString();
-                Console.WriteLine(string.Format("clicking row:{0} link", strt));
+                linkNo = strt.ToString().Length < 2 ? string.Concat("0", strt) : strt.ToString();
                 try
                 {
                     allWindowHandles = driver.WindowHandles;
@@ -207,7 +236,10 @@ namespace STCrawler
                             js.ExecuteScript(string.Format("$('#hand_{0}').addClass('handIcon');", linkNo), null);
                             js.ExecuteScript(string.Format("$('#hand_{0}').attr('onclick','updateTask({0},this)');", linkNo), null);
                             driver.FindElement(By.XPath(string.Format("//*[@id='hand_{0}']", linkNo))).Click();
+                            Console.WriteLine("clicked row:{0} link", strt);
                         }
+                        else
+                            Console.WriteLine("row:{0} link is already clicked/have some error ", strt);
                     }
 
                     else
@@ -219,8 +251,12 @@ namespace STCrawler
                             js.ExecuteScript(string.Format("$('#hand_{0}').addClass('handIcon');", linkNo), null);
                             js.ExecuteScript(string.Format("$('#hand_{0}').attr('onclick','updateTask({0},this)');", linkNo), null);
                             driver.FindElement(By.XPath(string.Format("//*[@id='hand_{0}']", linkNo))).Click();
+                            Console.WriteLine("clicked row:{0} link", strt);
                         }
+                        else
+                            Console.WriteLine("row:{0} link is already clicked/have some error ", strt);
                     }
+
                 }
                 catch (Exception e)
                 {
@@ -242,8 +278,7 @@ namespace STCrawler
             {
                 myCntr = int.Parse(row);
 
-                linkNo = (myCntr + 1).ToString().Length < 2 ? string.Concat("0", myCntr + 1) : (myCntr + 1).ToString();
-                Console.WriteLine(string.Format("clicking row:{0} link", myCntr));
+                linkNo = myCntr.ToString().Length < 2 ? string.Concat("0", myCntr) : myCntr.ToString();
                 try
                 {
                     allWindowHandles = driver.WindowHandles;
@@ -257,23 +292,36 @@ namespace STCrawler
                         driver.FindElement(By.TagName("body")).SendKeys(Keys.Control + "t");
                         driver.Navigate().GoToUrl(sitePath);
 
-                        if (driver.FindElements(By.XPath(string.Format("//*[@id='ctl00_ContentPlaceHolder1_gvAssignment_ctl{0}_Panel4']/a", linkNo))).Count > 0)
-                            driver.FindElement(By.XPath(string.Format("//*[@id='ctl00_ContentPlaceHolder1_gvAssignment_ctl{0}_Panel4']/a", linkNo))).Click();
+                        if (driver.FindElements(By.XPath(string.Format("//*[@id='hand_{0}']", linkNo))).Count > 0)
+                        {
+                            js.ExecuteScript(string.Format("$('#hand_{0}').addClass('handIcon');", linkNo), null);
+                            js.ExecuteScript(string.Format("$('#hand_{0}').attr('onclick','updateTask({0},this)');", linkNo), null);
+                            driver.FindElement(By.XPath(string.Format("//*[@id='hand_{0}']", linkNo))).Click();
+                            Console.WriteLine("clicked row:{0} link", myCntr);
+                        }
+                        else
+                            Console.WriteLine("row:{0} link is already clicked/have some error ", myCntr);
                     }
 
                     else
                     {
                         driver.FindElement(By.TagName("body")).SendKeys(Keys.Control + "\t");
                         driver.Navigate().Refresh();
-                        if (driver.FindElements(By.XPath(string.Format("//*[@id='ctl00_ContentPlaceHolder1_gvAssignment_ctl{0}_Panel4']/a", linkNo))).Count > 0)
-                            driver.FindElement(By.XPath(string.Format("//*[@id='ctl00_ContentPlaceHolder1_gvAssignment_ctl{0}_Panel4']/a", linkNo))).Click();
+                        if (driver.FindElements(By.XPath(string.Format("//*[@id='hand_{0}']", linkNo))).Count > 0)
+                        {
+                            js.ExecuteScript(string.Format("$('#hand_{0}').addClass('handIcon');", linkNo), null);
+                            js.ExecuteScript(string.Format("$('#hand_{0}').attr('onclick','updateTask({0},this)');", linkNo), null);
+                            driver.FindElement(By.XPath(string.Format("//*[@id='hand_{0}']", linkNo))).Click();
+                            Console.WriteLine("clicked row:{0} link", myCntr);
+                        }
+                        else
+                            Console.WriteLine("row:{0} link is already clicked/have some error ", myCntr);
                     }
                 }
                 catch (Exception e)
                 {
                     weLeftOn = myCntr--;
                     throw;
-
                 }
 
 
@@ -289,36 +337,6 @@ namespace STCrawler
                 driver.Close();
             Console.ReadLine();
 
-        }
-
-        public string[] AskOptions()
-        {
-            Console.Write("Pick you option:\n\r 1)Range \n\r 2)Specific Rows ");
-            var opt = Console.Read();
-            Console.Clear();
-
-            if (!string.IsNullOrEmpty(input) && opt == 1)
-            {
-                Console.Write(string.Format("The start and iterator Values are: {0} and {1}\n Press 1\0 to continue !!!", input, iterator));
-                if (Console.Read() == 0)
-                {
-                    Console.WriteLine("Enter start point: ");
-                    input = Console.ReadLine();
-                    Console.WriteLine("Enter iterator value: ");
-                    iterator = Console.Read();
-
-
-
-
-                }
-            }
-
-            else if (opt == 2)
-            {
-                Console.WriteLine("Enter ur Row Numbers(separated by space): ");
-                input = Console.ReadLine();
-            }
-            return input.Split(' ');
         }
 
         protected void myHandler(object sender, ConsoleCancelEventArgs args)
