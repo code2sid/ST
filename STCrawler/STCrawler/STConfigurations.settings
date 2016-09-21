@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="STCrawler" GeneratedClassName="STConfigurations">
+  <Profiles />
+  <Settings>
+    <Setting Name="ChromePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\siddharth.gupta\AppData\Local\Google\Chrome SxS\Application\</Value>
+    </Setting>
+    <Setting Name="ReAttempts" Type="System.String" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="SleepBy" Type="System.String" Scope="User">
+      <Value Profile="(Default)">55000</Value>
+    </Setting>
+    <Setting Name="SkipRequestWork" Type="System.String" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

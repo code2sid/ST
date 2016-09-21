@@ -1,0 +1,8 @@
+C:\sid\MyGit\myProjects\STCrawler\STCrawler\bin\Release\STCrawler.exe.config
+C:\sid\MyGit\myProjects\STCrawler\STCrawler\bin\Release\STCrawler.exe
+C:\sid\MyGit\myProjects\STCrawler\STCrawler\bin\Release\STCrawler.pdb
+C:\sid\MyGit\myProjects\STCrawler\STCrawler\bin\Release\nunit.framework.dll
+C:\sid\MyGit\myProjects\STCrawler\STCrawler\bin\Release\WebDriver.dll
+C:\sid\MyGit\myProjects\STCrawler\STCrawler\bin\Release\WebDriver.Support.dll
+C:\sid\MyGit\myProjects\STCrawler\STCrawler\obj\Release\STCrawler.exe
+C:\sid\MyGit\myProjects\STCrawler\STCrawler\obj\Release\STCrawler.pdb
