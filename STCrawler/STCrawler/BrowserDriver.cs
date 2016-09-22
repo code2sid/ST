@@ -117,8 +117,8 @@ namespace STCrawler
 
             switch (username.ToLower())
             {
-                case "ruchi": { username = "61053682"; password = "smile1510"; linkNo = "784456146"; rownum = 250; break; }
-                case "rmum": { username = "61081007"; password = "qwert123"; linkNo = "784604577"; rownum = 250; break; }
+                case "ruchi": { username = "61053682"; password = "smile1510"; rownum = 250; break; }
+                case "rmum": { username = "61081007"; password = "qwert123"; rownum = 250; break; }
                 default:
                     {
                         Console.WriteLine("Enter password: ");
@@ -152,15 +152,19 @@ namespace STCrawler
             Console.Write("Pick you option:\n\r 1)Range \n\r 2)Specific Rows ");
             var opt = Console.ReadLine();
             Console.Clear();
+            
+            driver.Navigate().GoToUrl(sitePath);
 
+            var e = driver.FindElements(By.XPath("//*[@id='dvCustomers']/tr[250]/td[4]/span"));
+            if (e.Count > 1)
+                linkNo = e[0].GetAttribute("id").Replace("hand_", "");
             if (rownum == 250  && opt.Equals("1"))
             {
                 Console.Write("The start and iterator Values are: {0} and {1}\n Press 1\0 to continue !!!", rownum, iterator);
                 if (Console.ReadLine().Equals("0"))
                 {
                     Console.WriteLine("Enter start point: ");
-                    rownum = int.Parse(Console.ReadLine());
-                    linkNo = ((250 - rownum) + int.Parse(linkNo)).ToString();
+                    linkNo = Console.ReadLine();
                     Console.WriteLine("Enter iterator value: ");
                     iterator = int.Parse(Console.ReadLine());
                 }
@@ -214,7 +218,6 @@ namespace STCrawler
             var tabCnt = 0;
             while (strt != stp)
             {
-                linkNo = strt.ToString().Length < 2 ? string.Concat("0", strt) : strt.ToString();
                 try
                 {
                     allWindowHandles = driver.WindowHandles;
@@ -227,11 +230,8 @@ namespace STCrawler
                     {
                         driver.FindElement(By.TagName("body")).SendKeys(Keys.Control + "t");
                         driver.Navigate().GoToUrl(sitePath);
-                        //*[@id="hand_745413454"]/i
-                        //*[@id="hand_745413455"]
-                        //*[@id="hand_765186898"]
-                        //hand_765187218
-                        if (driver.FindElements(By.XPath(string.Format("//*[@id='hand_{0}']", linkNo))).Count > 0)
+                        linkNo = driver.FindElements(By.XPath("//*[@id='dvCustomers']/tr[" + strt + "]/td[4]/span"))[0].GetAttribute("id").Replace("hand_", "");
+                        if (!string.IsNullOrEmpty(linkNo))
                         {
                             js.ExecuteScript(string.Format("$('#hand_{0}').addClass('handIcon');", linkNo), null);
                             js.ExecuteScript(string.Format("$('#hand_{0}').attr('onclick','updateTask({0},this)');", linkNo), null);
@@ -246,7 +246,8 @@ namespace STCrawler
                     {
                         driver.FindElement(By.TagName("body")).SendKeys(Keys.Control + "\t");
                         driver.Navigate().Refresh();
-                        if (driver.FindElements(By.XPath(string.Format("//*[@id='hand_{0}']", linkNo))).Count > 0)
+                        linkNo = driver.FindElements(By.XPath("//*[@id='dvCustomers']/tr[" + strt + "]/td[4]/span"))[0].GetAttribute("id").Replace("hand_", "");
+                        if (!string.IsNullOrEmpty(linkNo))
                         {
                             js.ExecuteScript(string.Format("$('#hand_{0}').addClass('handIcon');", linkNo), null);
                             js.ExecuteScript(string.Format("$('#hand_{0}').attr('onclick','updateTask({0},this)');", linkNo), null);
