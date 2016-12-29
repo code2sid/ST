@@ -2,17 +2,32 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="STCrawler" GeneratedClassName="STConfigurations">
   <Profiles />
   <Settings>
-    <Setting Name="ChromePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Users\siddharth.gupta\AppData\Local\Google\Chrome SxS\Application\</Value>
-    </Setting>
     <Setting Name="ReAttempts" Type="System.String" Scope="User">
       <Value Profile="(Default)">10</Value>
     </Setting>
-    <Setting Name="SleepBy" Type="System.String" Scope="User">
-      <Value Profile="(Default)">55000</Value>
+    <Setting Name="ScheduledHour" Type="System.String" Scope="User">
+      <Value Profile="(Default)">2,4,6,8,9</Value>
     </Setting>
-    <Setting Name="SkipRequestWork" Type="System.String" Scope="User">
-      <Value Profile="(Default)">1</Value>
+    <Setting Name="ST_UsernamePassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)">61053682~smile@15</Value>
+    </Setting>
+    <Setting Name="Code" Type="System.String" Scope="User">
+      <Value Profile="(Default)">R3qPzdrsH5cG9m2Gk0A9ztxvqZzRVZT83vu3/DkvsVwPdxy9hEzVBoZ8g1Y4eeZLCVDkn8P/XLr6aW0fSsJZ6lwthCppneCd7/l98CYuAkBI/dv8ZFssWMZkK9L8fOgtwtSxTzO3p5C1299fzYUtAX/cAl1SbJXuTMJnYPk+96E=</Value>
+    </Setting>
+    <Setting Name="ST_URL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://www.socialtrade.biz/User/MyePoints.aspx</Value>
+    </Setting>
+    <Setting Name="theme" Type="System.String" Scope="User">
+      <Value Profile="(Default)">sid</Value>
+    </Setting>
+    <Setting Name="placeholder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">//*[@id='ajax-content']/table[2]/tbody/tr[{0}]/td[4]/span</Value>
+    </Setting>
+    <Setting Name="ClosePopupsAfter" Type="System.String" Scope="User">
+      <Value Profile="(Default)">14</Value>
+    </Setting>
+    <Setting Name="PopupWaitTiming" Type="System.String" Scope="User">
+      <Value Profile="(Default)">35</Value>
     </Setting>
   </Settings>
 </SettingsFile>

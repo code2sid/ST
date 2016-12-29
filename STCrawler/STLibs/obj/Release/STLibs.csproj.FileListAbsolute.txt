@@ -1,0 +1,5 @@
+C:\sid\STCrawler\STLibs\bin\Release\STLibs.dll
+C:\sid\STCrawler\STLibs\bin\Release\STLibs.pdb
+C:\sid\STCrawler\STLibs\obj\Release\STLibs.dll
+C:\sid\STCrawler\STLibs\obj\Release\STLibs.pdb
+C:\sid\STCrawler\STLibs\obj\Release\STLibs.csprojResolveAssemblyReference.cache

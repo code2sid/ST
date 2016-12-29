@@ -1,0 +1,9 @@
+D:\My Content\Code2\STCrawler\AdCashCrawler\obj\Debug\AdCashCrawler.csprojResolveAssemblyReference.cache
+D:\My Content\Code2\STCrawler\AdCashCrawler\bin\Debug\AdCashCrawler.exe.config
+D:\My Content\Code2\STCrawler\AdCashCrawler\bin\Debug\AdCashCrawler.exe
+D:\My Content\Code2\STCrawler\AdCashCrawler\bin\Debug\AdCashCrawler.pdb
+D:\My Content\Code2\STCrawler\AdCashCrawler\bin\Debug\STLibs.dll
+D:\My Content\Code2\STCrawler\AdCashCrawler\bin\Debug\WebDriver.dll
+D:\My Content\Code2\STCrawler\AdCashCrawler\bin\Debug\STLibs.pdb
+D:\My Content\Code2\STCrawler\AdCashCrawler\obj\Debug\AdCashCrawler.exe
+D:\My Content\Code2\STCrawler\AdCashCrawler\obj\Debug\AdCashCrawler.pdb

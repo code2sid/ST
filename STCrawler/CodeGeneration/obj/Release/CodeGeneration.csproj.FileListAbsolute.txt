@@ -1,0 +1,11 @@
+C:\sid\STCrawler\CodeGeneration\bin\Release\CodeGeneration.exe.config
+C:\sid\STCrawler\CodeGeneration\bin\Release\CodeGeneration.exe
+C:\sid\STCrawler\CodeGeneration\bin\Release\CodeGeneration.pdb
+C:\sid\STCrawler\CodeGeneration\bin\Release\STLibs.dll
+C:\sid\STCrawler\CodeGeneration\bin\Release\STLibs.pdb
+C:\sid\STCrawler\CodeGeneration\obj\Release\CodeGeneration.csprojResolveAssemblyReference.cache
+C:\sid\STCrawler\CodeGeneration\obj\Release\CodeGeneration.Form1.resources
+C:\sid\STCrawler\CodeGeneration\obj\Release\CodeGeneration.Properties.Resources.resources
+C:\sid\STCrawler\CodeGeneration\obj\Release\CodeGeneration.csproj.GenerateResource.Cache
+C:\sid\STCrawler\CodeGeneration\obj\Release\CodeGeneration.exe
+C:\sid\STCrawler\CodeGeneration\obj\Release\CodeGeneration.pdb

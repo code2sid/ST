@@ -8,11 +8,43 @@ C:\sid\MyGit\myProjects\STCrawler\STCrawler\obj\Debug\STCrawler.exe
 C:\sid\MyGit\myProjects\STCrawler\STCrawler\obj\Debug\STCrawler.pdb
 C:\sid\MyGit\myProjects\STCrawler\STCrawler\obj\Debug\STCrawler.csprojResolveAssemblyReference.cache
 C:\sid\MyGit\ST\STCrawler\STCrawler\bin\Debug\STCrawler.exe.config
-C:\sid\MyGit\ST\STCrawler\STCrawler\obj\Debug\STCrawler.exe
-C:\sid\MyGit\ST\STCrawler\STCrawler\obj\Debug\STCrawler.pdb
 C:\sid\MyGit\ST\STCrawler\STCrawler\bin\Debug\STCrawler.exe
 C:\sid\MyGit\ST\STCrawler\STCrawler\bin\Debug\STCrawler.pdb
 C:\sid\MyGit\ST\STCrawler\STCrawler\bin\Debug\nunit.framework.dll
 C:\sid\MyGit\ST\STCrawler\STCrawler\bin\Debug\WebDriver.dll
 C:\sid\MyGit\ST\STCrawler\STCrawler\bin\Debug\WebDriver.Support.dll
 C:\sid\MyGit\ST\STCrawler\STCrawler\obj\Debug\STCrawler.csprojResolveAssemblyReference.cache
+C:\sid\MyGit\ST\STCrawler\STCrawler\obj\Debug\STCrawler.exe
+C:\sid\MyGit\ST\STCrawler\STCrawler\obj\Debug\STCrawler.pdb
+C:\sid\STCrawler\STCrawler\bin\Debug\STCrawler.exe.config
+C:\sid\STCrawler\STCrawler\bin\Debug\STCrawler.exe
+C:\sid\STCrawler\STCrawler\bin\Debug\STCrawler.pdb
+C:\sid\STCrawler\STCrawler\bin\Debug\STLibs.dll
+C:\sid\STCrawler\STCrawler\bin\Debug\WebDriver.dll
+C:\sid\STCrawler\STCrawler\bin\Debug\WebDriver.Support.dll
+C:\sid\STCrawler\STCrawler\bin\Debug\STLibs.pdb
+C:\sid\STCrawler\STCrawler\obj\Debug\STCrawler.csprojResolveAssemblyReference.cache
+C:\sid\STCrawler\STCrawler\obj\Debug\STCrawler.exe
+C:\sid\STCrawler\STCrawler\obj\Debug\STCrawler.pdb
+C:\sid\STCrawler\STCrawler\bin\Debug - Copy\STCrawler.exe.config
+C:\sid\STCrawler\STCrawler\bin\Debug - Copy\STCrawler.exe
+C:\sid\STCrawler\STCrawler\bin\Debug - Copy\STCrawler.pdb
+C:\sid\STCrawler\STCrawler\bin\Debug - Copy\STLibs.dll
+C:\sid\STCrawler\STCrawler\bin\Debug - Copy\WebDriver.dll
+C:\sid\STCrawler\STCrawler\bin\Debug - Copy\WebDriver.Support.dll
+C:\sid\STCrawler\STCrawler\bin\Debug - Copy\STLibs.pdb
+D:\My Content\Code2\STCrawler\STCrawler\bin\Debug\STCrawler.exe.config
+D:\My Content\Code2\STCrawler\STCrawler\obj\Debug\STCrawler.exe
+D:\My Content\Code2\STCrawler\STCrawler\obj\Debug\STCrawler.pdb
+D:\My Content\Code2\STCrawler\STCrawler\bin\Debug\STCrawler.exe
+D:\My Content\Code2\STCrawler\STCrawler\bin\Debug\STCrawler.pdb
+D:\My Content\Code2\STCrawler\STCrawler\bin\Debug\STLibs.dll
+D:\My Content\Code2\STCrawler\STCrawler\bin\Debug\WebDriver.dll
+D:\My Content\Code2\STCrawler\STCrawler\bin\Debug\STLibs.pdb
+D:\My Content\Code2\STCrawler\STCrawler\obj\Debug\STCrawler.csprojResolveAssemblyReference.cache
+D:\My Content\Code2\STCrawler\STCrawler\bin\Debug2\STCrawler.exe.config
+D:\My Content\Code2\STCrawler\STCrawler\bin\Debug2\STCrawler.exe
+D:\My Content\Code2\STCrawler\STCrawler\bin\Debug2\STCrawler.pdb
+D:\My Content\Code2\STCrawler\STCrawler\bin\Debug2\STLibs.dll
+D:\My Content\Code2\STCrawler\STCrawler\bin\Debug2\WebDriver.dll
+D:\My Content\Code2\STCrawler\STCrawler\bin\Debug2\STLibs.pdb

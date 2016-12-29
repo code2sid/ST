@@ -6,3 +6,13 @@ C:\sid\MyGit\myProjects\STCrawler\STCrawler\bin\Release\WebDriver.dll
 C:\sid\MyGit\myProjects\STCrawler\STCrawler\bin\Release\WebDriver.Support.dll
 C:\sid\MyGit\myProjects\STCrawler\STCrawler\obj\Release\STCrawler.exe
 C:\sid\MyGit\myProjects\STCrawler\STCrawler\obj\Release\STCrawler.pdb
+C:\sid\STCrawler\STCrawler\bin\Release\STCrawler.exe.config
+C:\sid\STCrawler\STCrawler\obj\Release\STCrawler.exe
+C:\sid\STCrawler\STCrawler\obj\Release\STCrawler.pdb
+C:\sid\STCrawler\STCrawler\bin\Release\STCrawler.exe
+C:\sid\STCrawler\STCrawler\bin\Release\STCrawler.pdb
+C:\sid\STCrawler\STCrawler\bin\Release\STLibs.dll
+C:\sid\STCrawler\STCrawler\bin\Release\WebDriver.dll
+C:\sid\STCrawler\STCrawler\bin\Release\WebDriver.Support.dll
+C:\sid\STCrawler\STCrawler\bin\Release\STLibs.pdb
+C:\sid\STCrawler\STCrawler\obj\Release\STCrawler.csprojResolveAssemblyReference.cache

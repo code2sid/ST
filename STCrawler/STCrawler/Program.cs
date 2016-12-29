@@ -1,27 +1,30 @@
-﻿using OpenQA.Selenium;
-using System;
-using System.Net;
+﻿using System;
+using System.Linq;
+using STLibs;
 
 namespace STCrawler
 {
     class Program
     {
-        public static event ConsoleCancelEventHandler CancelKeyPress;
+        static ICrawler crawler = (ICrawler)new ST();
+        public static bool isScheduled = STConfigurations.Default.ScheduledHour.Split(',').Where(s => DateTime.Now.TimeOfDay.Hours.ToString().Equals(s)).Count() > 0;
+        public static string theme = STConfigurations.Default.theme;
+
         static void Main(string[] args)
         {
-            ConsoleKeyInfo cki;
 
+            Console.CancelKeyPress += new ConsoleCancelEventHandler(myHandler);
             Console.Clear();
-
-            // Establish an event handler to process key press events.
-            //Console.CancelKeyPress += new ConsoleCancelEventHandler(myHandler);
-
-            BrowserDriver m = new BrowserDriver();
-            m.setup();
-            m.ClickController();
+            crawler.Setup();
+            crawler.ClickController();
         }
 
-      
+        static void myHandler(object sender, ConsoleCancelEventArgs args)
+        {
+            crawler.CloseAll();
+        }
+
+
 
     }
 

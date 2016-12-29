@@ -1,0 +1,13 @@
+C:\sid\STCrawler\Libs\STLibs.dll
+C:\sid\STCrawler\Libs\STLibs.pdb
+C:\sid\STCrawler\STLibs\bin\Debug\STLibs.dll
+C:\sid\STCrawler\STLibs\bin\Debug\STLibs.pdb
+C:\sid\STCrawler\STLibs\obj\Debug\STLibs.csprojResolveAssemblyReference.cache
+C:\sid\STCrawler\STLibs\obj\Debug\STLibs.dll
+C:\sid\STCrawler\STLibs\obj\Debug\STLibs.pdb
+D:\My Content\Code2\STCrawler\STLibs\bin\Debug\STLibs.dll
+D:\My Content\Code2\STCrawler\STLibs\bin\Debug\STLibs.pdb
+D:\My Content\Code2\STCrawler\STLibs\obj\Debug\STLibs.csprojResolveAssemblyReference.cache
+D:\My Content\Code2\STCrawler\STLibs\obj\Debug\STLibs.dll
+D:\My Content\Code2\STCrawler\STLibs\obj\Debug\STLibs.pdb
+D:\My Content\Code2\STCrawler\STLibs\bin\Debug\WebDriver.dll
