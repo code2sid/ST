@@ -48,3 +48,6 @@ D:\My Content\Code2\STCrawler\STCrawler\bin\Debug2\STCrawler.pdb
 D:\My Content\Code2\STCrawler\STCrawler\bin\Debug2\STLibs.dll
 D:\My Content\Code2\STCrawler\STCrawler\bin\Debug2\WebDriver.dll
 D:\My Content\Code2\STCrawler\STCrawler\bin\Debug2\STLibs.pdb
+D:\My Content\CodeST\ST\STCrawler\STCrawler\bin\Debug\STCrawler.exe.config
+D:\My Content\CodeST\ST\STCrawler\STCrawler\obj\Debug\STCrawler.exe
+D:\My Content\CodeST\ST\STCrawler\STCrawler\obj\Debug\STCrawler.pdb

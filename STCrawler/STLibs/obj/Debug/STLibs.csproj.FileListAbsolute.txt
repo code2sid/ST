@@ -11,3 +11,9 @@ D:\My Content\Code2\STCrawler\STLibs\obj\Debug\STLibs.csprojResolveAssemblyRefer
 D:\My Content\Code2\STCrawler\STLibs\obj\Debug\STLibs.dll
 D:\My Content\Code2\STCrawler\STLibs\obj\Debug\STLibs.pdb
 D:\My Content\Code2\STCrawler\STLibs\bin\Debug\WebDriver.dll
+D:\My Content\CodeST\ST\STCrawler\STLibs\bin\Debug\STLibs.dll
+D:\My Content\CodeST\ST\STCrawler\STLibs\bin\Debug\STLibs.pdb
+D:\My Content\CodeST\ST\STCrawler\STLibs\bin\Debug\WebDriver.dll
+D:\My Content\CodeST\ST\STCrawler\STLibs\obj\Debug\STLibs.csprojResolveAssemblyReference.cache
+D:\My Content\CodeST\ST\STCrawler\STLibs\obj\Debug\STLibs.dll
+D:\My Content\CodeST\ST\STCrawler\STLibs\obj\Debug\STLibs.pdb
