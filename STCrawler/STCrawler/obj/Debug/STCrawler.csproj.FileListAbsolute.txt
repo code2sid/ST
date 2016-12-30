@@ -51,3 +51,6 @@ D:\My Content\Code2\STCrawler\STCrawler\bin\Debug2\STLibs.pdb
 D:\My Content\CodeST\ST\STCrawler\STCrawler\bin\Debug\STCrawler.exe.config
 D:\My Content\CodeST\ST\STCrawler\STCrawler\obj\Debug\STCrawler.exe
 D:\My Content\CodeST\ST\STCrawler\STCrawler\obj\Debug\STCrawler.pdb
+C:\sid\ST\STCrawler\STCrawler\bin\Debug\STCrawler.exe.config
+C:\sid\ST\STCrawler\STCrawler\obj\Debug\STCrawler.exe
+C:\sid\ST\STCrawler\STCrawler\obj\Debug\STCrawler.pdb
