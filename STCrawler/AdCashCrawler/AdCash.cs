@@ -24,9 +24,8 @@ namespace AdCashCrawler
         public void Setup()
         {
             Utilitiy.DeleteTempFiles();
-            driver = new FirefoxDriver();
-            js = (IJavaScriptExecutor)driver;
-            /*opt = "c";
+            
+            opt = "c";
             ChromeDriverService service = null;
             Process chromeProcess = Process.GetProcessesByName("chrome")[0];
 
@@ -44,7 +43,10 @@ namespace AdCashCrawler
                 service = ChromeDriverService.CreateDefaultService(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location));
                 service.Port = 90;
                 driver = new ChromeDriver(service);
-            }*/
+            }
+
+           /* driver = new FirefoxDriver();*/
+            js = (IJavaScriptExecutor)driver;
         }
 
         public void TestConnection()
@@ -60,9 +62,6 @@ namespace AdCashCrawler
                 Console.WriteLine("Connection break down!!!!");
                 ContiClose();
             }
-
-
-
         }
 
         public void login_GetWork()
@@ -76,20 +75,22 @@ namespace AdCashCrawler
             password = ACConfigurations.Default.AC_UsernamePassword.Split('~')[1];
 
             List<UserCredentials> admingrp = new List<UserCredentials>();
-            admingrp.Add(new UserCredentials { UserId = 61099880, Name = "Nidhi", Password = "nids@1234" });
-            admingrp.Add(new UserCredentials { UserId = 61081007, Name = "Mum", Password = "Rbt@1234" });
+            admingrp.Add(new UserCredentials { UserId = 67436159, Name = "Sugi", Password = "sugi@123" });
             admingrp.Add(new UserCredentials { UserId = 61049490, Name = "Anjali", Password = "qwerty@27" });
-            admingrp.Add(new UserCredentials { UserId = 61099902, Name = "Disha", Password = "disha@123" });
+            admingrp.Add(new UserCredentials { UserId = 70926084, Name = "Sunny", Password = "disha@123" });
+            admingrp.Add(new UserCredentials { UserId = 89936281, Name = "Nidhi", Password = "nids@1234" });
 
             if (username.Equals("34119123"))
             {
                 Console.WriteLine("Hi Ruchi.. u r admin !!! no need of code");
                 string proxyDetails = proxy(admingrp);
-                if (!string.IsNullOrWhiteSpace(proxyDetails))
+                if (!string.IsNullOrWhiteSpace(proxyDetails) && proxyDetails.Split('~')[2].Equals("010786"))
                 {
                     username = proxyDetails.Split('~')[0].ToString();
                     password = proxyDetails.Split('~')[1].ToString();
                 }
+                else if (!string.IsNullOrWhiteSpace(proxyDetails) && !proxyDetails.Split('~')[2].Equals("010786"))
+                    Console.WriteLine("Wrong Pwrd");
             }
             else
             {
@@ -105,6 +106,7 @@ namespace AdCashCrawler
             driver.FindElement(By.XPath("//*[@id='contact-form']/div[1]/div[1]/input")).SendKeys(username);
             driver.FindElement(By.XPath("//*[@id='contact-form']/div[1]/div[2]/input")).SendKeys(password);
             driver.FindElement(By.XPath("//*[@id='contact-form']/div[2]/button")).Click();
+
 
             Console.WriteLine("\n\nGetting todays work...");
 
@@ -123,10 +125,10 @@ namespace AdCashCrawler
 
                 member = adminMember != null ? string.Join("~", adminMember.UserId.ToString(), adminMember.Password) : string.Empty;
                 if (member.Contains("~"))
-                    return member;
+                    return member + "~010786";
                 else
                 {
-                    Console.WriteLine("Enter username and password in format: usrnm-pwd:");
+                    Console.WriteLine("Enter username and password in format: usrnm-pwd-AdminPwd:");
                     return Console.ReadLine();
                 }
             }
@@ -156,29 +158,55 @@ namespace AdCashCrawler
         public string[] AskOptions(bool firstTime = true, string range = "")
         {
             Console.Clear();
+            driver.Navigate().GoToUrl(sitePath);
+
+
+            Console.WriteLine("Please choose following options:1,2,3,4");
+            Console.WriteLine("1) Run Crawler from 1 to 60.");
+            Console.WriteLine("2) Run Crawler for Customized Range. ");
+
+            var choice = isScheduled ? "1" : Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1": { linkNo = "1,250"; iterator = 1; break; }
+                case "2":
+                    {
+                        Console.Write("Enter start stop separated by comma(,) (eg-1,100):  ");
+                        linkNo = Console.ReadLine();
+                        iterator = 1; break;
+                    }
+                default:
+                    break;
+            }
+
+
             return linkNo.Split(' ');
         }
 
         public void ClickController(bool firstTime = true, string range = "")
         {
-            TestConnection();
-
-            if (driver.Title.ToLower().Contains("maintenance"))
+            if (firstTime)
             {
-                Console.WriteLine("its is in under maintenance !!!!! try out after some time... Bbye !!!!");
-                Console.ReadLine();
-                return;
+                TestConnection();
+
+                if (driver.Title.ToLower().Contains("maintenance"))
+                {
+                    Console.WriteLine("its is in under maintenance !!!!! try out after some time... Bbye !!!!");
+                    Console.ReadLine();
+                    return;
+                }
+
+                login_GetWork();
+                Console.Clear();
             }
-
-            login_GetWork();
-            Console.Clear();
-
             var rows = AskOptions();
             int strt = 1, stp = 60;
             Console.Clear();
             try
             {
-
+                strt = int.Parse(rows[0].Split(',')[0]);
+                stp = int.Parse(rows[0].Split(',')[1]);
                 ExecuteClicks(strt: weLeftOn = strt, stp: stp, iterator: iterator);
             }
             catch (Exception ex)
@@ -198,37 +226,12 @@ namespace AdCashCrawler
             {
                 try
                 {
-                    allWindowHandles = driver.WindowHandles;
-                    if (allWindowHandles.Count > int.Parse(ACConfigurations.Default.ClosePopupsAfter))
-                    {
-                        Thread.Sleep(5000);
-                        allWindowHandles = driver.WindowHandles;
-                        for (int i = 1; i < allWindowHandles.Count; i++)
-                        {
-                            driver.SwitchTo().Window(allWindowHandles[i]);
-                            driver.Close();
-                        }
-
-                        driver.SwitchTo().Window(allWindowHandles[0]);
-                    }
-                    if (opt.Equals("c"))
-                    {
-                        Thread.Sleep(5000);
-                        //js.ExecuteScript(string.Format("window.open('{0}', '_blank');", string.Format("{0}?act={1}", sitePath, strt)));
-                    }
-                    else
-                    {
-                        driver.FindElement(By.TagName("body")).SendKeys(Keys.Control + "t");
-                        driver.Navigate().GoToUrl(string.Format("{0}?act={1}", sitePath, strt));
-                    }
+                    driver.Navigate().GoToUrl(string.Format("{0}?act={1}", sitePath, strt));
+                    Thread.Sleep(3000);
 
                     js.ExecuteScript("$('#submit_box').show()", null);
                     driver.FindElement(By.XPath("//*[@id='submit_box']/input")).Click();
                     Console.WriteLine("clicked link:{0} ", strt);
-
-
-
-
                 }
                 catch (Exception e)
                 {
@@ -252,7 +255,6 @@ namespace AdCashCrawler
             else
                 CloseAll();
         }
-
 
         public void CloseAll()
         {

@@ -71,8 +71,7 @@ namespace STCrawler
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Connection break down!!!!");
-                ContiClose();
+                Console.WriteLine("Connection break down!!!! Please try after some time !!!");
             }
 
 
