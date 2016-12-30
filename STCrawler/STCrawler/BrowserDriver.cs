@@ -21,8 +21,6 @@ namespace STCrawler
         string sitePath = STConfigurations.Default.ST_URL, linkNo = string.Empty, opt = string.Empty;
         int weLeftOn = 1, iterator = -1, reAttempts = 10;
         string hrOfTime = DateTime.Now.TimeOfDay.Hours.ToString();
-
-
         bool isScheduled = STConfigurations.Default.ScheduledHour.Split(',').Where(s => DateTime.Now.TimeOfDay.Hours.ToString().Equals(s)).Count() > 0;
 
         public void Setup()
@@ -141,18 +139,8 @@ namespace STCrawler
                     return member + "~010786";
                 else
                 {
-                    string adminpwd = "";
-
-
-                    while (!adminpwd.Contains("010786") && adminpwd.Length - adminpwd.Replace("~", "").Length != 2)
-                    {
-                        Console.WriteLine("Enter username and password in format: usrnm-pwd-AdminPwd:");
-                        adminpwd = Console.ReadLine();
-                        if(adminpwd.Length - adminpwd.Replace("~", "").Length != 2)
-                            Console.WriteLine("Please enter in correct format");
-                    }
-
-                    return adminpwd;
+                    Console.WriteLine("Enter username and password in format: usrnm-pwd-AdminPwd:");
+                    return Console.ReadLine();
                 }
             }
             else
@@ -191,7 +179,15 @@ namespace STCrawler
         {
             Console.Clear();
             if (driver.Url.Contains("dashboard.aspx"))
-                driver.FindElement(By.XPath("//*[@id='ctl00_ContentPlaceHolder1_UpPanel1']/div/div/div/div/div/div[2]/b/a")).Click();
+            {
+                if (driver.FindElements(By.XPath("//*[@id='popup']/img")).Count > 0)
+                    driver.FindElement(By.XPath("//*[@id='popup']/img")).Click();
+
+                Thread.Sleep(5000);
+
+                driver.FindElement(By.XPath("//*[@id='ctl00_ContentPlaceHolder1_UpPanel1']/div[3]/div/div/div/div/div[2]/b/a")).Click();
+
+            }
             //driver.Navigate().GoToUrl(sitePath);
 
             Console.WriteLine("Please choose following options:1,2,3,4");
@@ -262,6 +258,7 @@ namespace STCrawler
                         strt = int.Parse(rows[0].Split(',')[0]);
                         stp = int.Parse(rows[0].Split(',')[1]);
                         ExecuteClicks(strt: weLeftOn = strt, stp: stp, iterator: iterator);
+                        ExecuteClicks(strt: strt, stp: stp, iterator: 1, spl: "pendings");
                     }
                     else if (linkNo.Contains("pendings"))
                     {
@@ -270,7 +267,7 @@ namespace STCrawler
                         ExecuteClicks(strt: strt, stp: stp, iterator: 1, spl: "pendings");
 
                     }
-
+                        
                 }
             }
             catch (Exception ex)
@@ -291,6 +288,22 @@ namespace STCrawler
             {
                 try
                 {
+
+                    allWindowHandles = driver.WindowHandles;
+                    if (allWindowHandles.Count > int.Parse(STConfigurations.Default.ClosePopupsAfter))
+                    {
+                        Console.WriteLine("Please wait for ({0}) seconds closing popups...", STConfigurations.Default.PopupWaitTiming);
+                        Thread.Sleep(1000 * int.Parse(STConfigurations.Default.PopupWaitTiming));
+                        allWindowHandles = driver.WindowHandles;
+                        for (int i = 1; i < allWindowHandles.Count - 10; i++)
+                        {
+                            driver.SwitchTo().Window(allWindowHandles[i]);
+                            driver.Close();
+                        }
+
+                        driver.SwitchTo().Window(allWindowHandles[0]);
+                    }
+
                     linkNo = driver.FindElements(By.XPath(string.Format(STConfigurations.Default.placeholder, strt)))[1].GetAttribute("id").Replace("hand_", "");
                     if (!string.IsNullOrEmpty(linkNo) && !linkNo.Contains("facebook"))
                     {
@@ -300,13 +313,10 @@ namespace STCrawler
                             && driver.FindElements(By.XPath(string.Format(STConfigurations.Default.placeholder.Replace("td[4]/span", "td[3]/span"), strt)))[0].GetAttribute("id").Contains("pending"))
                         {
                             driver.FindElement(By.XPath(string.Format("//*[@id='hand_{0}']", linkNo))).Click();
-                            Console.WriteLine("clicked row:{0} link", strt);
                         }
                         else if (!spl.Equals("pendings"))
-                        {
                             driver.FindElement(By.XPath(string.Format("//*[@id='hand_{0}']", linkNo))).Click();
-                            Console.WriteLine("clicked row:{0} link", strt);
-                        }
+                        Console.WriteLine("clicked row:{0} link", strt);
                     }
                     else
                     {
@@ -314,29 +324,12 @@ namespace STCrawler
                         Console.WriteLine("clicked row:{0} facebook link", strt);
                     }
 
-                    if (opt.Equals("c")) Thread.Sleep(5000);
-
-                    if (driver.WindowHandles.Count > int.Parse(STConfigurations.Default.ClosePopupsAfter))
+                    if (opt.Equals("c"))
                     {
-                        Console.WriteLine("Please wait for ({0}) seconds closing popups...", STConfigurations.Default.PopupWaitTiming);
-                        Thread.Sleep(1000 * int.Parse(STConfigurations.Default.PopupWaitTiming));
-                        allWindowHandles = driver.WindowHandles;
-                        for (int i = 1; i < allWindowHandles.Count; i++)
-                        {
-                            driver.SwitchTo().Window(allWindowHandles[i]);
-                            try
-                            {
-                                driver.Close();
-                                Thread.Sleep(1000);
-                            }
-                            catch (Exception ex)
-                            {
-                                //nothing to perform and close other....
-                            }
-                        }
-                        strt -= (1 * iterator);
-                        driver.SwitchTo().Window(allWindowHandles[0]);
+                        Thread.Sleep(5000);
                     }
+
+
 
                 }
                 catch (Exception e)
@@ -366,7 +359,19 @@ namespace STCrawler
                 try
                 {
                     allWindowHandles = driver.WindowHandles;
+                    if (allWindowHandles.Count > int.Parse(STConfigurations.Default.ClosePopupsAfter))
+                    {
+                        Console.WriteLine("Please wait for ({0}) seconds closing popups...", STConfigurations.Default.PopupWaitTiming);
+                        Thread.Sleep(1000 * int.Parse(STConfigurations.Default.PopupWaitTiming));
+                        allWindowHandles = driver.WindowHandles;
+                        for (int i = 1; i < allWindowHandles.Count - 10; i++)
+                        {
+                            driver.SwitchTo().Window(allWindowHandles[i]);
+                            driver.Close();
+                        }
 
+                        driver.SwitchTo().Window(allWindowHandles[0]);
+                    }
 
                     linkNo = driver.FindElements(By.XPath(string.Format(STConfigurations.Default.placeholder, row)))[1].GetAttribute("id").Replace("hand_", "");
                     if (!string.IsNullOrEmpty(linkNo) && !linkNo.Contains("facebook"))
@@ -384,26 +389,6 @@ namespace STCrawler
 
                     if (opt.Equals("c")) Thread.Sleep(5000);
 
-                    if (allWindowHandles.Count > int.Parse(STConfigurations.Default.ClosePopupsAfter))
-                    {
-                        Console.WriteLine("Please wait for ({0}) seconds closing popups...", STConfigurations.Default.PopupWaitTiming);
-                        Thread.Sleep(1000 * int.Parse(STConfigurations.Default.PopupWaitTiming));
-                        allWindowHandles = driver.WindowHandles;
-                        for (int i = 1; i < allWindowHandles.Count; i++)
-                        {
-                            driver.SwitchTo().Window(allWindowHandles[i]);
-                            try
-                            {
-                                driver.Close();
-                            }
-                            catch (Exception ex)
-                            {
-                                //nothing to perform and close other....
-                            }
-                        }
-
-                        driver.SwitchTo().Window(allWindowHandles[0]);
-                    }
                 }
                 catch (Exception e)
                 {
@@ -443,48 +428,31 @@ namespace STCrawler
         public void CloseAll()
         {
             Console.Clear();
-            Console.WriteLine("Closing everything !!!");
+            Console.WriteLine("Have a break !!!! have a Kit-kat ;)");
+            allWindowHandles = driver.WindowHandles;
             Console.WriteLine("Please wait for ({0}) seconds closing popups...", STConfigurations.Default.PopupWaitTiming);
             Thread.Sleep(1000 * int.Parse(STConfigurations.Default.PopupWaitTiming));
-            allWindowHandles = driver.WindowHandles;
             for (int i = 1; i < allWindowHandles.Count; i++)
             {
                 driver.SwitchTo().Window(allWindowHandles[i]);
-                try
+                driver.Close();
+                if (i % 5 == 0)
                 {
-                    driver.Close();
-                }
-                catch (Exception ex)
-                {
-                    //nothing to perform and close other....
+                    Console.WriteLine("Please wait for ({0}) seconds closing popups...", STConfigurations.Default.PopupWaitTiming);
+                    Thread.Sleep(1000 * int.Parse(STConfigurations.Default.PopupWaitTiming));
                 }
             }
-
+            
             Console.WriteLine("Please wait for ({0}) seconds closing popups...", STConfigurations.Default.PopupWaitTiming);
             Thread.Sleep(1000 * int.Parse(STConfigurations.Default.PopupWaitTiming));
-
+            
             driver.SwitchTo().Window(allWindowHandles[0]);
             driver.Close();
             Console.ReadLine();
 
         }
 
-        private bool IsElementPresent(By by)
-        {
-            try
-            {
-                driver.FindElement(by);
-                return true;
-            }
-            catch (NoSuchElementException)
-            {
-                return false;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-        }
+
     }
 
 
