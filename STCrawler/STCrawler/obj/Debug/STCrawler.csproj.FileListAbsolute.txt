@@ -54,3 +54,9 @@ D:\My Content\CodeST\ST\STCrawler\STCrawler\obj\Debug\STCrawler.pdb
 C:\sid\ST\STCrawler\STCrawler\bin\Debug\STCrawler.exe.config
 C:\sid\ST\STCrawler\STCrawler\obj\Debug\STCrawler.exe
 C:\sid\ST\STCrawler\STCrawler\obj\Debug\STCrawler.pdb
+D:\My Content\CodeST\ST\STCrawler\STCrawler\bin\Debug\STCrawler.exe
+D:\My Content\CodeST\ST\STCrawler\STCrawler\bin\Debug\STCrawler.pdb
+D:\My Content\CodeST\ST\STCrawler\STCrawler\bin\Debug\STLibs.dll
+D:\My Content\CodeST\ST\STCrawler\STCrawler\bin\Debug\WebDriver.dll
+D:\My Content\CodeST\ST\STCrawler\STCrawler\bin\Debug\STLibs.pdb
+D:\My Content\CodeST\ST\STCrawler\STCrawler\obj\Debug\STCrawler.csprojResolveAssemblyReference.cache

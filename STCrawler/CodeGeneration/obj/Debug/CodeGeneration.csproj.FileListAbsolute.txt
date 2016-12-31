@@ -20,3 +20,14 @@ D:\My Content\Code2\STCrawler\CodeGeneration\obj\Debug\CodeGeneration.Properties
 D:\My Content\Code2\STCrawler\CodeGeneration\obj\Debug\CodeGeneration.csproj.GenerateResource.Cache
 D:\My Content\Code2\STCrawler\CodeGeneration\obj\Debug\CodeGeneration.exe
 D:\My Content\Code2\STCrawler\CodeGeneration\obj\Debug\CodeGeneration.pdb
+D:\My Content\CodeST\ST\STCrawler\CodeGeneration\bin\Debug\CodeGeneration.exe.config
+D:\My Content\CodeST\ST\STCrawler\CodeGeneration\bin\Debug\CodeGeneration.exe
+D:\My Content\CodeST\ST\STCrawler\CodeGeneration\bin\Debug\CodeGeneration.pdb
+D:\My Content\CodeST\ST\STCrawler\CodeGeneration\bin\Debug\STLibs.dll
+D:\My Content\CodeST\ST\STCrawler\CodeGeneration\bin\Debug\STLibs.pdb
+D:\My Content\CodeST\ST\STCrawler\CodeGeneration\obj\Debug\CodeGeneration.csprojResolveAssemblyReference.cache
+D:\My Content\CodeST\ST\STCrawler\CodeGeneration\obj\Debug\CodeGeneration.Form1.resources
+D:\My Content\CodeST\ST\STCrawler\CodeGeneration\obj\Debug\CodeGeneration.Properties.Resources.resources
+D:\My Content\CodeST\ST\STCrawler\CodeGeneration\obj\Debug\CodeGeneration.csproj.GenerateResource.Cache
+D:\My Content\CodeST\ST\STCrawler\CodeGeneration\obj\Debug\CodeGeneration.exe
+D:\My Content\CodeST\ST\STCrawler\CodeGeneration\obj\Debug\CodeGeneration.pdb

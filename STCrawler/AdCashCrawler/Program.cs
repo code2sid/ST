@@ -12,8 +12,9 @@ namespace AdCashCrawler
         static ICrawler crawler = (ICrawler)new AdCash();
         static void Main(string[] args)
         {
-        
 
+            crawler.Setup();
+            crawler.ClickController();
         }
     }
 }
