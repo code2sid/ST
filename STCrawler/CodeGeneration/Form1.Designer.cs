@@ -32,11 +32,15 @@
             this.label2 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.UserId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UserCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(113, 76);
+            this.button1.Location = new System.Drawing.Point(113, 27);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
@@ -47,7 +51,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(113, 37);
+            this.label2.Location = new System.Drawing.Point(319, 7);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(35, 13);
             this.label2.TabIndex = 2;
@@ -55,11 +59,11 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(219, 76);
+            this.textBox1.Location = new System.Drawing.Point(220, 27);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(360, 118);
+            this.textBox1.Size = new System.Drawing.Size(334, 74);
             this.textBox1.TabIndex = 3;
             // 
             // dateTimePicker1
@@ -70,11 +74,35 @@
             this.dateTimePicker1.TabIndex = 4;
             this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.UserId,
+            this.UserCode});
+            this.dataGridView1.Location = new System.Drawing.Point(12, 107);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(692, 237);
+            this.dataGridView1.TabIndex = 5;
+            // 
+            // UserId
+            // 
+            this.UserId.Frozen = true;
+            this.UserId.HeaderText = "UserID";
+            this.UserId.Name = "UserId";
+            // 
+            // UserCode
+            // 
+            this.UserCode.Frozen = true;
+            this.UserCode.HeaderText = "UserCode";
+            this.UserCode.Name = "UserCode";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(716, 392);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label2);
@@ -82,6 +110,7 @@
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -93,6 +122,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UserId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UserCode;
     }
 }
 
