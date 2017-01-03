@@ -26,22 +26,10 @@ namespace CodeGeneration
 
         private void button1_Click(object sender, EventArgs e)
         {
-<<<<<<< HEAD
-            label2.Text = code;
-            var codes = textBox1.Text.Replace("\r\n", "~").Split('~');
-            foreach (var icode in codes)
-            {
-                var row = this.dataGridView1.Rows[dataGridView1.Rows.Add()];
-                row.Cells[0].Value = icode;
-                row.Cells[1].Value = Security.Encrypt(string.Format("{0}~{1}", icode, code), STLibs.Utilitiy.passKey);
-            }
-
-            textBox1.Text = Security.Encrypt(string.Format("{0}~{1}", textBox1.Text, code), STLibs.Utilitiy.passKey);
-
+            
             //var dt = Utilitiy.GetNistTime();
             //var dt2 = dateTimePicker1.Value;
             //textBox1.Text = DateTime.Compare(dt, dt2).ToString();
-=======
             dataGridView1.Rows.Clear();
 
             label2.Text = string.Format("{0}~{1}", code, textBox1.Text.Replace("\r\n", "~"));
@@ -55,9 +43,6 @@ namespace CodeGeneration
                 row.Cells[1].Value = Security.Encrypt(string.Format("{0}~{1}", UserId, code), STLibs.Utilitiy.passKey);
                 dataGridView1.Rows.Add(row);
             }
-
-           
->>>>>>> ec6abb2091b7bd62fd79aa908b263991b54df311
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
