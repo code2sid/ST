@@ -6,19 +6,10 @@
       <Value Profile="(Default)">http://adscash.in/userpanel/browsing_page_updated.php</Value>
     </Setting>
     <Setting Name="AC_UsernamePassword" Type="System.String" Scope="User">
-      <Value Profile="(Default)">34119123~378984</Value>
+      <Value Profile="(Default)">34119123~smile@15</Value>
     </Setting>
     <Setting Name="Code" Type="System.String" Scope="User">
       <Value Profile="(Default)">ur AdCash Code</Value>
-    </Setting>
-    <Setting Name="theme" Type="System.String" Scope="User">
-      <Value Profile="(Default)">sid</Value>
-    </Setting>
-    <Setting Name="placeholder" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="ClosePopupsAfter" Type="System.String" Scope="User">
-      <Value Profile="(Default)">20</Value>
     </Setting>
     <Setting Name="ScheduledHour" Type="System.String" Scope="User">
       <Value Profile="(Default)">2,4,6,8</Value>

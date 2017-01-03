@@ -13,6 +13,7 @@ namespace AdCashCrawler
 {
     public class AdCash : ICrawler
     {
+        public string username, password;
         private IWebDriver driver;
         private IJavaScriptExecutor js;
         public IList<string> allWindowHandles = null;
@@ -24,28 +25,33 @@ namespace AdCashCrawler
         public void Setup()
         {
             Utilitiy.DeleteTempFiles();
-            
-            opt = "c";
-            ChromeDriverService service = null;
-            Process chromeProcess = Process.GetProcessesByName("chrome")[0];
-
-            if (chromeProcess != null)
+            /* ChromeDriverService service = null;
+            Console.WriteLine("Which driver (c/m)");
+            opt = isScheduled ? "m" : Console.ReadLine();
+            if (opt.ToLower().Contains("m"))
+                driver = new FirefoxDriver();
+            else if (opt.ToLower().Contains("c"))
             {
+                Process chromeProcess = Process.GetProcessesByName("chrome")[0];
 
-                if (!System.IO.File.Exists(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\chrome.exe"))
+                if (chromeProcess != null)
                 {
-                    string chrmFolderSrc = chromeProcess.Modules[0].FileName.Replace("\\chrome.exe", "");
-                    string chrmFolderDest = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
 
-                    Utilitiy.DirectoryCopy(chrmFolderSrc, ".", true);
+                    if (!System.IO.File.Exists(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\chrome.exe"))
+                    {
+                        string chrmFolderSrc = chromeProcess.Modules[0].FileName.Replace("\\chrome.exe", "");
+                        string chrmFolderDest = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+
+                        Utilitiy.DirectoryCopy(chrmFolderSrc, ".", true);
+                    }
+
+                    service = ChromeDriverService.CreateDefaultService(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location));
+                    service.Port = 90;
+                    driver = new ChromeDriver(service);
                 }
-
-                service = ChromeDriverService.CreateDefaultService(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location));
-                service.Port = 90;
-                driver = new ChromeDriver(service);
             }
 
-           /* driver = new FirefoxDriver();*/
+            */driver = new FirefoxDriver();
             js = (IJavaScriptExecutor)driver;
         }
 
@@ -66,7 +72,6 @@ namespace AdCashCrawler
 
         public void login_GetWork()
         {
-            string username, password;
             username = password = string.Empty;
             linkNo = "250";
 
@@ -226,20 +231,31 @@ namespace AdCashCrawler
             {
                 try
                 {
-                    driver.Navigate().GoToUrl(string.Format("{0}?act={1}", sitePath, strt));
-                    Thread.Sleep(3000);
+                    if (driver.Url.Contains("login") || !driver.Url.Contains("adscash.in/userpanel/browsing_page_updated.php"))
+                    {
+                        driver.FindElement(By.XPath("//*[@id='contact-form']/div[1]/div[1]/input")).SendKeys(username);
+                        driver.FindElement(By.XPath("//*[@id='contact-form']/div[1]/div[2]/input")).SendKeys(password);
+                        driver.FindElement(By.XPath("//*[@id='contact-form']/div[2]/button")).Click();
+                        driver.Navigate().GoToUrl(string.Format("{0}?act={1}", sitePath, strt));
+                    }
 
-                    js.ExecuteScript("$('#submit_box').show()", null);
-                    driver.FindElement(By.XPath("//*[@id='submit_box']/input")).Click();
-                    Console.WriteLine("clicked link:{0} ", strt);
+                    else if (driver.Url.Contains("adscash.in/userpanel/browsing_page_updated.php"))
+                    {
+                        driver.FindElement(By.XPath(@"//*[@id='page_content_inner']/div/div/div/div[2]/
+                                                    div[1]/table/tbody/tr[1]/td/form/table/tbody/tr/td[2]/table/tbody/tr[2]/td[2]/a")).Click();
+                        js.ExecuteScript("$('#submit_box').show()", null);
+                        driver.FindElement(By.XPath("//*[@id='submit_box']/input")).Click();
+                        driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
+                        Console.WriteLine("clicked link:{0} ", strt);
+                        Thread.Sleep(3000);
+                        strt += (1 * iterator);
+                    }
                 }
                 catch (Exception e)
                 {
                     weLeftOn = strt--;
-                    break;
                 }
 
-                strt += (1 * iterator);
             }
             Console.WriteLine(strt == stp ? "Task Completed" : "Task breaked at: {0}", strt);
             Console.WriteLine("Completed @{0}", DateTime.Now.ToString("dd-MMM-yy hh:mm:ss tt"));
