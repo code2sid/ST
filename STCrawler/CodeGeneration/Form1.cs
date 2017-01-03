@@ -26,6 +26,7 @@ namespace CodeGeneration
 
         private void button1_Click(object sender, EventArgs e)
         {
+<<<<<<< HEAD
             label2.Text = code;
             var codes = textBox1.Text.Replace("\r\n", "~").Split('~');
             foreach (var icode in codes)
@@ -40,6 +41,23 @@ namespace CodeGeneration
             //var dt = Utilitiy.GetNistTime();
             //var dt2 = dateTimePicker1.Value;
             //textBox1.Text = DateTime.Compare(dt, dt2).ToString();
+=======
+            dataGridView1.Rows.Clear();
+
+            label2.Text = string.Format("{0}~{1}", code, textBox1.Text.Replace("\r\n", "~"));
+
+            var userIds = textBox1.Text.Replace("\r\n", "~").Split('~');
+            DataGridViewRow row = null;
+            foreach (var userId in userIds)
+            {
+                row = (DataGridViewRow)dataGridView1.Rows[0].Clone();
+                row.Cells[0].Value = userId;
+                row.Cells[1].Value = Security.Encrypt(string.Format("{0}~{1}", UserId, code), STLibs.Utilitiy.passKey);
+                dataGridView1.Rows.Add(row);
+            }
+
+           
+>>>>>>> ec6abb2091b7bd62fd79aa908b263991b54df311
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)

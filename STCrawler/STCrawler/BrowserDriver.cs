@@ -179,7 +179,15 @@ namespace STCrawler
         {
             Console.Clear();
             if (driver.Url.Contains("dashboard.aspx"))
-                driver.FindElement(By.XPath("//*[@id='ctl00_ContentPlaceHolder1_UpPanel1']/div/div/div/div/div/div[2]/b/a")).Click();
+            {
+                if (driver.FindElements(By.XPath("//*[@id='popup']/img")).Count > 0)
+                    driver.FindElement(By.XPath("//*[@id='popup']/img")).Click();
+
+                Thread.Sleep(5000);
+
+                driver.FindElement(By.XPath("//*[@id='ctl00_ContentPlaceHolder1_UpPanel1']/div[3]/div/div/div/div/div[2]/b/a")).Click();
+
+            }
             //driver.Navigate().GoToUrl(sitePath);
 
             Console.WriteLine("Please choose following options:1,2,3,4");
