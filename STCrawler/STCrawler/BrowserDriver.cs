@@ -117,7 +117,7 @@ namespace STCrawler
             if (IsElementPresent(By.XPath("//*[@id='popup']/img")))
                 driver.FindElement(By.XPath("//*[@id='popup']/img")).Click();
 
-
+            Thread.Sleep(5000);
             driver.FindElement(By.XPath("//*[@id='txtEmailID']")).SendKeys(username);
             driver.FindElement(By.XPath("//*[@id='txtPassword']")).SendKeys(password);
             driver.FindElement(By.Name("CndSignIn")).Click();
@@ -195,11 +195,11 @@ namespace STCrawler
             if (driver.Url.Contains("dashboard.aspx"))
             {
                 if (IsElementPresent(By.XPath("//*[@id='popup']/img")))
+                {
                     driver.FindElement(By.XPath("//*[@id='popup']/img")).Click();
-
-                Thread.Sleep(5000);
-
-                driver.FindElement(By.XPath("//*[@id='ctl00_ContentPlaceHolder1_UpPanel1']/div[3]/div/div/div/div/div[2]/b/a")).Click();
+                    Thread.Sleep(5000);
+                }
+                driver.FindElement(By.XPath(STConfigurations.Default.placeholder1)).Click();
 
             }
             //driver.Navigate().GoToUrl(sitePath);
@@ -470,10 +470,15 @@ namespace STCrawler
         {
             try
             {
+                driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(3));
                 driver.FindElement(by);
                 return true;
             }
             catch (NoSuchElementException)
+            {
+                return false;
+            }
+            catch (Exception ex)
             {
                 return false;
             }
