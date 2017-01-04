@@ -114,6 +114,9 @@ namespace STCrawler
 
             Console.WriteLine("\n\nLogging-in Please be patient...");
 
+            if (IsElementPresent(By.XPath("//*[@id='popup']/img")))
+                driver.FindElement(By.XPath("//*[@id='popup']/img")).Click();
+
 
             driver.FindElement(By.XPath("//*[@id='txtEmailID']")).SendKeys(username);
             driver.FindElement(By.XPath("//*[@id='txtPassword']")).SendKeys(password);
@@ -180,7 +183,7 @@ namespace STCrawler
             Console.Clear();
             if (driver.Url.Contains("dashboard.aspx"))
             {
-                if (driver.FindElements(By.XPath("//*[@id='popup']/img")).Count > 0)
+                if(IsElementPresent(By.XPath("//*[@id='popup']/img")))
                     driver.FindElement(By.XPath("//*[@id='popup']/img")).Click();
 
                 Thread.Sleep(5000);
@@ -450,6 +453,19 @@ namespace STCrawler
             driver.Close();
             Console.ReadLine();
 
+        }
+
+        private bool IsElementPresent(By by)
+        {
+            try
+            {
+                driver.FindElement(by);
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
         }
 
 
