@@ -142,8 +142,19 @@ namespace STCrawler
                     return member + "~010786";
                 else
                 {
-                    Console.WriteLine("Enter username and password in format: usrnm-pwd-AdminPwd:");
-                    return Console.ReadLine();
+                    var adminpwd = string.Empty;
+                    while (!adminpwd.Equals("010786") && adminpwd.Length - adminpwd.Replace("~","").Length != 2)
+                    {
+                        Console.WriteLine("Enter username and password in format: usrnm-pwd-AdminPwd:");
+                        adminpwd = Console.ReadLine();
+                        if (!adminpwd.Equals("010786"))
+                            Console.WriteLine("Please enter correct password !!!");
+                        else if (adminpwd.Length - adminpwd.Replace("~", "").Length != 2)
+                            Console.WriteLine("Please enter correct format !!!");
+                    }
+
+                    return adminpwd;
+
                 }
             }
             else
@@ -183,7 +194,7 @@ namespace STCrawler
             Console.Clear();
             if (driver.Url.Contains("dashboard.aspx"))
             {
-                if(IsElementPresent(By.XPath("//*[@id='popup']/img")))
+                if (IsElementPresent(By.XPath("//*[@id='popup']/img")))
                     driver.FindElement(By.XPath("//*[@id='popup']/img")).Click();
 
                 Thread.Sleep(5000);
@@ -270,7 +281,7 @@ namespace STCrawler
                         ExecuteClicks(strt: strt, stp: stp, iterator: 1, spl: "pendings");
 
                     }
-                        
+
                 }
             }
             catch (Exception ex)
@@ -445,10 +456,10 @@ namespace STCrawler
                     Thread.Sleep(1000 * int.Parse(STConfigurations.Default.PopupWaitTiming));
                 }
             }
-            
+
             Console.WriteLine("Please wait for ({0}) seconds closing popups...", STConfigurations.Default.PopupWaitTiming);
             Thread.Sleep(1000 * int.Parse(STConfigurations.Default.PopupWaitTiming));
-            
+
             driver.SwitchTo().Window(allWindowHandles[0]);
             driver.Close();
             Console.ReadLine();
