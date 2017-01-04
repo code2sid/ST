@@ -75,7 +75,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="STConfigurations.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>STConfigurations.Designer.cs</LastGenOutput>
