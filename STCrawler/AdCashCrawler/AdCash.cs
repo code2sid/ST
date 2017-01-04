@@ -133,8 +133,18 @@ namespace AdCashCrawler
                     return member + "~010786";
                 else
                 {
-                    Console.WriteLine("Enter username and password in format: usrnm-pwd-AdminPwd:");
-                    return Console.ReadLine();
+                    var adminpwd = string.Empty;
+                    while (!adminpwd.Equals("010786") && adminpwd.Length - adminpwd.Replace("~", "").Length != 2)
+                    {
+                        Console.WriteLine("Enter username and password in format: usrnm-pwd-AdminPwd:");
+                        adminpwd = Console.ReadLine();
+                        if (!adminpwd.Equals("010786"))
+                            Console.WriteLine("Please enter correct password !!!");
+                        else if (adminpwd.Length - adminpwd.Replace("~", "").Length != 2)
+                            Console.WriteLine("Please enter correct format !!!");
+                    }
+
+                    return adminpwd;
                 }
             }
             else
