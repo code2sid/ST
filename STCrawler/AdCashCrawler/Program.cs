@@ -14,7 +14,6 @@ namespace AdCashCrawler
         {
             crawler.Setup();
             crawler.ClickController();
-
         }
     }
 }

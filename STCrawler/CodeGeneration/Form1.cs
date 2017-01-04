@@ -26,6 +26,10 @@ namespace CodeGeneration
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
+            //var dt = Utilitiy.GetNistTime();
+            //var dt2 = dateTimePicker1.Value;
+            //textBox1.Text = DateTime.Compare(dt, dt2).ToString();
             dataGridView1.Rows.Clear();
 
             label2.Text = string.Format("{0}~{1}", code, textBox1.Text.Replace("\r\n", "~"));
@@ -39,8 +43,6 @@ namespace CodeGeneration
                 row.Cells[1].Value = Security.Encrypt(string.Format("{0}~{1}", UserId, code), STLibs.Utilitiy.passKey);
                 dataGridView1.Rows.Add(row);
             }
-
-           
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
