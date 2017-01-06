@@ -75,7 +75,7 @@ namespace STCrawler {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://www.socialtrade.biz/User/MyePoints.aspx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://www.socialtrade.biz/")]
         public string ST_URL {
             get {
                 return ((string)(this["ST_URL"]));
@@ -130,6 +130,18 @@ namespace STCrawler {
             }
             set {
                 this["PopupWaitTiming"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("//*[@id=\"ctl00_ContentPlaceHolder1_UpPanel1\"]/div/div/div/div/div/div[2]/b/a")]
+        public string placeholder1 {
+            get {
+                return ((string)(this["placeholder1"]));
+            }
+            set {
+                this["placeholder1"] = value;
             }
         }
     }
