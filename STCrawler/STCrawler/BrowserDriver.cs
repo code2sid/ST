@@ -308,7 +308,7 @@ namespace STCrawler
                         Console.WriteLine("Please wait for ({0}) seconds closing popups...", STConfigurations.Default.PopupWaitTiming);
                         Thread.Sleep(1000 * int.Parse(STConfigurations.Default.PopupWaitTiming));
                         allWindowHandles = driver.WindowHandles;
-                        for (int i = 1; i < allWindowHandles.Count - 10; i++)
+                        for (int i = 1; i < allWindowHandles.Count; i++)
                         {
                             driver.SwitchTo().Window(allWindowHandles[i]);
                             driver.Close();
@@ -378,7 +378,7 @@ namespace STCrawler
                         Console.WriteLine("Please wait for ({0}) seconds closing popups...", STConfigurations.Default.PopupWaitTiming);
                         Thread.Sleep(1000 * int.Parse(STConfigurations.Default.PopupWaitTiming));
                         allWindowHandles = driver.WindowHandles;
-                        for (int i = 1; i < allWindowHandles.Count - 10; i++)
+                        for (int i = 1; i < allWindowHandles.Count; i++)
                         {
                             driver.SwitchTo().Window(allWindowHandles[i]);
                             driver.Close();
