@@ -199,7 +199,7 @@ namespace STCrawler
 
                 Thread.Sleep(5000);
 
-                driver.FindElement(By.XPath("//*[@id='ctl00_ContentPlaceHolder1_UpPanel1']/div[3]/div/div/div/div/div[2]/b/a")).Click();
+                driver.FindElement(By.XPath("//*[@id='ctl00_ContentPlaceHolder1_UpPanel1']/div/div/div/div/div/div[2]/b/a")).Click();
 
             }
             //driver.Navigate().GoToUrl(sitePath);
