@@ -143,7 +143,7 @@ namespace STCrawler
                 else
                 {
                     var adminpwd = string.Empty;
-                    while (!adminpwd.Equals("010786") && adminpwd.Length - adminpwd.Replace("~","").Length != 2)
+                    while (!adminpwd.Equals("010786") && adminpwd.Length - adminpwd.Replace("~", "").Length != 2)
                     {
                         Console.WriteLine("Enter username and password in format: usrnm-pwd-AdminPwd:");
                         adminpwd = Console.ReadLine();
@@ -312,7 +312,14 @@ namespace STCrawler
                         for (int i = 1; i < allWindowHandles.Count - 10; i++)
                         {
                             driver.SwitchTo().Window(allWindowHandles[i]);
-                            driver.Close();
+                            try
+                            {
+                                driver.Close();
+                            }
+                            catch (Exception ex)
+                            {
+                                //do nothing
+                            }
                         }
 
                         driver.SwitchTo().Window(allWindowHandles[0]);
@@ -381,7 +388,14 @@ namespace STCrawler
                         for (int i = 1; i < allWindowHandles.Count - 10; i++)
                         {
                             driver.SwitchTo().Window(allWindowHandles[i]);
-                            driver.Close();
+                            try
+                            {
+                                driver.Close();
+                            }
+                            catch (Exception ex)
+                            {
+                                //do nothing
+                            }
                         }
 
                         driver.SwitchTo().Window(allWindowHandles[0]);
@@ -449,12 +463,16 @@ namespace STCrawler
             for (int i = 1; i < allWindowHandles.Count; i++)
             {
                 driver.SwitchTo().Window(allWindowHandles[i]);
-                driver.Close();
-                if (i % 5 == 0)
+                try
                 {
-                    Console.WriteLine("Please wait for ({0}) seconds closing popups...", STConfigurations.Default.PopupWaitTiming);
-                    Thread.Sleep(1000 * int.Parse(STConfigurations.Default.PopupWaitTiming));
+                    driver.Close();
                 }
+                catch (Exception ex)
+                {
+
+                    //do nothing
+                }
+
             }
 
             Console.WriteLine("Please wait for ({0}) seconds closing popups...", STConfigurations.Default.PopupWaitTiming);
