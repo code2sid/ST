@@ -214,27 +214,34 @@ namespace STCrawler
 
         public string[] AskOptions()
         {
-            Console.Clear();
-            if (driver.Url.Contains("dashboard.aspx"))
+            try
             {
-                if (IsElementPresent(By.XPath("//*[@id='popup']/img")))
+                Console.Clear();
+                if (driver.Url.Contains("dashboard.aspx"))
                 {
-                    driver.FindElement(By.XPath("//*[@id='popup']/img")).Click();
-                    Thread.Sleep(5000);
+                    if (IsElementPresent(By.XPath("//*[@id='popup']/img")))
+                    {
+                        driver.FindElement(By.XPath("//*[@id='popup']/img")).Click();
+                        Thread.Sleep(5000);
+                    }
+
+
+                    driver.FindElement(By.XPath(STConfigurations.Default.placeholder1)).Click();
+
                 }
 
-
-
-                driver.FindElement(By.XPath(STConfigurations.Default.placeholder1)).Click();
-
+                if (isManualLogin)
+                {
+                    var uname = IsElementPresent(By.XPath("//*[@id='popup']/img")) ? driver.FindElement(By.XPath("//*[@id='ctl00_lblUserID']")).Text : "0000";
+                    Authorization(uname);
+                }
             }
-
-            if (isManualLogin)
+            catch (Exception ex)
             {
-                var uname = IsElementPresent(By.XPath("//*[@id='popup']/img")) ? driver.FindElement(By.XPath("//*[@id='ctl00_lblUserID']")).Text : "0000";
-                Authorization(uname);
+                Console.WriteLine("Problem in clicking popup or View Advertisements.. please do manually");
+                Console.ReadLine();
+                Console.Clear();
             }
-
             Console.WriteLine("Please choose following options:1,2,3,4");
             Console.WriteLine("1) Run Crawler from 1 to 250.");
             Console.WriteLine("2) Run Crawler from 250 to 1.");
