@@ -311,7 +311,14 @@ namespace STCrawler
                         for (int i = 1; i < allWindowHandles.Count; i++)
                         {
                             driver.SwitchTo().Window(allWindowHandles[i]);
-                            driver.Close();
+                            try
+                            {
+                                driver.Close();
+                            }
+                            catch (Exception ex)
+                            {
+                                //do nothing
+                            }
                         }
 
                         driver.SwitchTo().Window(allWindowHandles[0]);
@@ -381,7 +388,14 @@ namespace STCrawler
                         for (int i = 1; i < allWindowHandles.Count; i++)
                         {
                             driver.SwitchTo().Window(allWindowHandles[i]);
-                            driver.Close();
+                            try
+                            {
+                                driver.Close();
+                            }
+                            catch (Exception ex)
+                            {
+                                //do nothing
+                            }
                         }
 
                         driver.SwitchTo().Window(allWindowHandles[0]);
@@ -449,12 +463,16 @@ namespace STCrawler
             for (int i = 1; i < allWindowHandles.Count; i++)
             {
                 driver.SwitchTo().Window(allWindowHandles[i]);
-                driver.Close();
-                if (i % 5 == 0)
+                try
                 {
-                    Console.WriteLine("Please wait for ({0}) seconds closing popups...", STConfigurations.Default.PopupWaitTiming);
-                    Thread.Sleep(1000 * int.Parse(STConfigurations.Default.PopupWaitTiming));
+                    driver.Close();
                 }
+                catch (Exception ex)
+                {
+
+                    //do nothing
+                }
+
             }
 
             Console.WriteLine("Please wait for ({0}) seconds closing popups...", STConfigurations.Default.PopupWaitTiming);
