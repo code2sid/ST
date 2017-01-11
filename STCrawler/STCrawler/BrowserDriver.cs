@@ -309,7 +309,7 @@ namespace STCrawler
                         Console.WriteLine("Please wait for ({0}) seconds closing popups...", STConfigurations.Default.PopupWaitTiming);
                         Thread.Sleep(1000 * int.Parse(STConfigurations.Default.PopupWaitTiming));
                         allWindowHandles = driver.WindowHandles;
-                        for (int i = 1; i < allWindowHandles.Count - 10; i++)
+                        for (int i = 1; i < allWindowHandles.Count; i++)
                         {
                             driver.SwitchTo().Window(allWindowHandles[i]);
                             try
@@ -323,6 +323,7 @@ namespace STCrawler
                         }
 
                         driver.SwitchTo().Window(allWindowHandles[0]);
+                        stp += (-1 * iterator);
                     }
 
                     linkNo = driver.FindElements(By.XPath(string.Format(STConfigurations.Default.placeholder, strt)))[1].GetAttribute("id").Replace("hand_", "");
@@ -385,7 +386,7 @@ namespace STCrawler
                         Console.WriteLine("Please wait for ({0}) seconds closing popups...", STConfigurations.Default.PopupWaitTiming);
                         Thread.Sleep(1000 * int.Parse(STConfigurations.Default.PopupWaitTiming));
                         allWindowHandles = driver.WindowHandles;
-                        for (int i = 1; i < allWindowHandles.Count - 10; i++)
+                        for (int i = 1; i < allWindowHandles.Count; i++)
                         {
                             driver.SwitchTo().Window(allWindowHandles[i]);
                             try
