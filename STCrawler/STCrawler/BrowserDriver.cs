@@ -22,6 +22,8 @@ namespace STCrawler
         int weLeftOn = 1, iterator = -1, reAttempts = 10;
         string hrOfTime = DateTime.Now.TimeOfDay.Hours.ToString();
         bool isScheduled = STConfigurations.Default.ScheduledHour.Split(',').Where(s => DateTime.Now.TimeOfDay.Hours.ToString().Equals(s)).Count() > 0;
+        bool isManualLogin = false;
+        List<UserCredentials> admingrp = new List<UserCredentials>();
 
         public void Setup()
         {
@@ -78,6 +80,22 @@ namespace STCrawler
 
         }
 
+        public UserCredentials Authorization(string username)
+        {
+            admingrp.Add(new UserCredentials { UserId = 61099880, Name = "Nidhi", Password = "nids@1234" });
+            admingrp.Add(new UserCredentials { UserId = 61081007, Name = "Mum", Password = "Rbt@1234" });
+            admingrp.Add(new UserCredentials { UserId = 61049490, Name = "Anjali", Password = "qwerty@27" });
+            admingrp.Add(new UserCredentials { UserId = 61099902, Name = "Disha", Password = "disha@123" });
+
+            var user = admingrp.Where(grp => grp.UserId.ToString().Equals(username)).FirstOrDefault();
+            if (user != null && !string.IsNullOrEmpty(user.Name))
+                Console.WriteLine("Hi {0}.. u r admin grp!!! no need of code", user.Name);
+            else
+                Authentication(username);
+
+            return user;
+        }
+
         public void login_GetWork()
         {
             string username, password;
@@ -86,12 +104,6 @@ namespace STCrawler
             username = STConfigurations.Default.ST_UsernamePassword.Split('~')[0];
             Console.WriteLine("\n\nIts running for user: {0}", username);
             password = STConfigurations.Default.ST_UsernamePassword.Split('~')[1];
-
-            List<UserCredentials> admingrp = new List<UserCredentials>();
-            admingrp.Add(new UserCredentials { UserId = 61099880, Name = "Nidhi", Password = "nids@1234" });
-            admingrp.Add(new UserCredentials { UserId = 61081007, Name = "Mum", Password = "Rbt@1234" });
-            admingrp.Add(new UserCredentials { UserId = 61049490, Name = "Anjali", Password = "qwerty@27" });
-            admingrp.Add(new UserCredentials { UserId = 61099902, Name = "Disha", Password = "disha@123" });
 
             if (username.Equals("61053682") && Program.theme.Equals("sid"))
             {
@@ -103,13 +115,15 @@ namespace STCrawler
                     password = proxyDetails.Split('~')[1].ToString();
                 }
             }
-            else if (!username.Equals("61053682"))
+
+            else
             {
-                var user = admingrp.Where(grp => grp.UserId.ToString().Equals(username)).FirstOrDefault();
-                if (user != null && !string.IsNullOrEmpty(user.Name))
-                    Console.WriteLine("Hi {0}.. u r admin grp!!! no need of code", user.Name);
-                else
-                    Authentication(username);
+                UserCredentials user = Authorization(username);
+                if (user != null)
+                {
+                    username = user.Name;
+                    password = user.Password;
+                }
             }
 
             Console.WriteLine("\n\nLogging-in Please be patient...");
@@ -118,10 +132,19 @@ namespace STCrawler
                 driver.FindElement(By.XPath("//*[@id='popup']/img")).Click();
 
             Thread.Sleep(5000);
-            driver.FindElement(By.XPath("//*[@id='txtEmailID']")).SendKeys(username);
-            driver.FindElement(By.XPath("//*[@id='txtPassword']")).SendKeys(password);
-            driver.FindElement(By.Name("CndSignIn")).Click();
 
+            try
+            {
+                driver.FindElement(By.XPath("//*[@id='txtEmailID']")).SendKeys(username);
+                driver.FindElement(By.XPath("//*[@id='txtPassword']")).SendKeys(password);
+                driver.FindElement(By.Name("CndSignIn")).Click();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Due to some error please login manually and hit enter");
+                Console.ReadLine();
+                isManualLogin = true;
+            }
             Console.WriteLine("\n\nGetting todays work...");
 
         }
@@ -191,19 +214,34 @@ namespace STCrawler
 
         public string[] AskOptions()
         {
-            Console.Clear();
-            if (driver.Url.Contains("dashboard.aspx"))
+            try
             {
-                if (IsElementPresent(By.XPath("//*[@id='popup']/img")))
+                Console.Clear();
+                if (driver.Url.Contains("dashboard.aspx"))
                 {
-                    driver.FindElement(By.XPath("//*[@id='popup']/img")).Click();
-                    Thread.Sleep(5000);
+                    if (IsElementPresent(By.XPath("//*[@id='popup']/img")))
+                    {
+                        driver.FindElement(By.XPath("//*[@id='popup']/img")).Click();
+                        Thread.Sleep(5000);
+                    }
+
+
+                    driver.FindElement(By.XPath(STConfigurations.Default.placeholder1)).Click();
+
                 }
-                driver.FindElement(By.XPath(STConfigurations.Default.placeholder1)).Click();
 
+                if (isManualLogin)
+                {
+                    var uname = IsElementPresent(By.XPath("//*[@id='popup']/img")) ? driver.FindElement(By.XPath("//*[@id='ctl00_lblUserID']")).Text : "0000";
+                    Authorization(uname);
+                }
             }
-            //driver.Navigate().GoToUrl(sitePath);
-
+            catch (Exception ex)
+            {
+                Console.WriteLine("Problem in clicking popup or View Advertisements.. please do manually");
+                Console.ReadLine();
+                Console.Clear();
+            }
             Console.WriteLine("Please choose following options:1,2,3,4");
             Console.WriteLine("1) Run Crawler from 1 to 250.");
             Console.WriteLine("2) Run Crawler from 250 to 1.");
@@ -323,7 +361,7 @@ namespace STCrawler
                         }
 
                         driver.SwitchTo().Window(allWindowHandles[0]);
-                        stp += (-1 * iterator);
+                        strt += (iterator * -1);
                     }
 
                     linkNo = driver.FindElements(By.XPath(string.Format(STConfigurations.Default.placeholder, strt)))[1].GetAttribute("id").Replace("hand_", "");
