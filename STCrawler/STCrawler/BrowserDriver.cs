@@ -121,7 +121,7 @@ namespace STCrawler
                 UserCredentials user = Authorization(username);
                 if (user != null)
                 {
-                    username = user.Name;
+                    username = user.UserId.ToString();
                     password = user.Password;
                 }
             }
@@ -136,7 +136,9 @@ namespace STCrawler
             try
             {
                 driver.FindElement(By.XPath("//*[@id='txtEmailID']")).SendKeys(username);
+                Thread.Sleep(2000);
                 driver.FindElement(By.XPath("//*[@id='txtPassword']")).SendKeys(password);
+                Thread.Sleep(2000);
                 driver.FindElement(By.Name("CndSignIn")).Click();
             }
             catch (Exception ex)
@@ -336,11 +338,11 @@ namespace STCrawler
             Console.WriteLine("Started @{0} for {1} to {2}", DateTime.Now.ToString("dd-MMM-yy hh:mm:ss tt"), strt, stp);
             var linkNo = "0";
             stp += (1 * iterator);
+            var mainWindow = driver.CurrentWindowHandle;
             while (strt != stp)
             {
                 try
                 {
-
                     allWindowHandles = driver.WindowHandles;
                     if (allWindowHandles.Count > int.Parse(STConfigurations.Default.ClosePopupsAfter))
                     {
@@ -352,7 +354,7 @@ namespace STCrawler
                             driver.SwitchTo().Window(allWindowHandles[i]);
                             try
                             {
-                                driver.Close();
+                                if (driver.CurrentWindowHandle != mainWindow) driver.Close();
                             }
                             catch (Exception ex)
                             {
@@ -411,6 +413,7 @@ namespace STCrawler
             Console.WriteLine("Started @{0}", DateTime.Now.ToString("dd-MMM-yy hh:mm:ss tt"));
             var linkNo = "0";
             int myCntr = 0;
+            var mainWindow = driver.CurrentWindowHandle;
             foreach (var row in rows)
             {
                 myCntr = int.Parse(row);
@@ -429,7 +432,8 @@ namespace STCrawler
                             driver.SwitchTo().Window(allWindowHandles[i]);
                             try
                             {
-                                driver.Close();
+                                if (driver.CurrentWindowHandle != mainWindow) driver.Close();
+
                             }
                             catch (Exception ex)
                             {

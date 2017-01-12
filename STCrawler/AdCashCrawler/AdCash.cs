@@ -51,7 +51,8 @@ namespace AdCashCrawler
                 }
             }
 
-            */driver = new FirefoxDriver();
+            */
+            driver = new FirefoxDriver();
             js = (IJavaScriptExecutor)driver;
         }
 
@@ -236,29 +237,60 @@ namespace AdCashCrawler
         public void ExecuteClicks(int strt, int stp, int iterator)
         {
             Console.WriteLine("Started @{0} for {1} to {2}", DateTime.Now.ToString("dd-MMM-yy hh:mm:ss tt"), strt, stp);
+            int tabCnt = 0, tab = 20; 
             stp += (1 * iterator);
             while (strt != stp)
             {
                 try
                 {
-                    if (driver.Url.Contains("login") || !driver.Url.Contains("adscash.in/userpanel/browsing_page_updated.php"))
+                    allWindowHandles = driver.WindowHandles;
+                    foreach (var item in allWindowHandles)
+                        if (item == driver.CurrentWindowHandle)
+                            tabCnt++;
+                    if (tabCnt <= 20)
                     {
-                        driver.FindElement(By.XPath("//*[@id='contact-form']/div[1]/div[1]/input")).SendKeys(username);
-                        driver.FindElement(By.XPath("//*[@id='contact-form']/div[1]/div[2]/input")).SendKeys(password);
-                        driver.FindElement(By.XPath("//*[@id='contact-form']/div[2]/button")).Click();
-                        driver.Navigate().GoToUrl(string.Format("{0}?act={1}", sitePath, strt));
-                    }
+                        if (driver.Url.Contains("login") || !driver.Url.Contains("adscash.in/userpanel/browsing_page_updated.php"))
+                        {
+                            driver.FindElement(By.XPath("//*[@id='contact-form']/div[1]/div[1]/input")).SendKeys(username);
+                            driver.FindElement(By.XPath("//*[@id='contact-form']/div[1]/div[2]/input")).SendKeys(password);
+                            driver.FindElement(By.XPath("//*[@id='contact-form']/div[2]/button")).Click();
+                            driver.Navigate().GoToUrl(string.Format("{0}?act={1}", sitePath, strt));
+                        }
 
-                    else if (driver.Url.Contains("adscash.in/userpanel/browsing_page_updated.php"))
-                    {
                         driver.FindElement(By.XPath(@"//*[@id='page_content_inner']/div/div/div/div[2]/
                                                     div[1]/table/tbody/tr[1]/td/form/table/tbody/tr/td[2]/table/tbody/tr[2]/td[2]/a")).Click();
                         js.ExecuteScript("$('#submit_box').show()", null);
-                        driver.FindElement(By.XPath("//*[@id='submit_box']/input")).Click();
                         driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
+                        driver.FindElement(By.XPath("//*[@id='submit_box']/input")).Click();
                         Console.WriteLine("clicked link:{0} ", strt);
-                        Thread.Sleep(3000);
+                        //   Thread.Sleep(3000);
+
+                        driver.FindElement(By.TagName("body")).SendKeys(Keys.Control + "t");
+                        driver.Navigate().GoToUrl(string.Format("{0}?act={1}", sitePath, strt));
                         strt += (1 * iterator);
+                    }
+                    else
+                    {
+                        driver.FindElement(By.TagName("body")).SendKeys(Keys.Control + "\t");
+                        tab = tab == 0 ? 20 : tab;
+
+                        if (driver.Url.Contains("login") || !driver.Url.Contains("adscash.in/userpanel/browsing_page_updated.php"))
+                        {
+                            driver.FindElement(By.XPath("//*[@id='contact-form']/div[1]/div[1]/input")).SendKeys(username);
+                            driver.FindElement(By.XPath("//*[@id='contact-form']/div[1]/div[2]/input")).SendKeys(password);
+                            driver.FindElement(By.XPath("//*[@id='contact-form']/div[2]/button")).Click();
+                            driver.Navigate().GoToUrl(string.Format("{0}?act={1}", sitePath, strt));
+                        }
+
+                        driver.FindElement(By.XPath(@"//*[@id='page_content_inner']/div/div/div/div[2]/
+                                                    div[1]/table/tbody/tr[1]/td/form/table/tbody/tr/td[2]/table/tbody/tr[2]/td[2]/a")).Click();
+                        js.ExecuteScript("$('#submit_box').show()", null);
+                        driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
+                        driver.FindElement(By.XPath("//*[@id='submit_box']/input")).Click();
+                        Console.WriteLine("clicked link:{0} ", strt);
+
+                        tab--;
+
                     }
                 }
                 catch (Exception e)
