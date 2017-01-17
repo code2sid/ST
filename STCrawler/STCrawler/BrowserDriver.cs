@@ -168,14 +168,17 @@ namespace STCrawler
                 else
                 {
                     var adminpwd = string.Empty;
-                    while (!adminpwd.Equals("010786") && adminpwd.Length - adminpwd.Replace("~", "").Length != 2)
+                    bool proxyCondition = true;
+                    while (proxyCondition)
                     {
                         Console.WriteLine("Enter username and password in format: usrnm-pwd-AdminPwd:");
                         adminpwd = Console.ReadLine();
-                        if (!adminpwd.Equals("010786"))
+
+                        if (adminpwd.Length - adminpwd.Replace("~", "").Length != 2 || !adminpwd.Contains("010786"))
                             Console.WriteLine("Please enter correct password !!!");
-                        else if (adminpwd.Length - adminpwd.Replace("~", "").Length != 2)
-                            Console.WriteLine("Please enter correct format !!!");
+                        else
+                            proxyCondition = false;
+
                     }
 
                     return adminpwd;
@@ -219,22 +222,11 @@ namespace STCrawler
             try
             {
                 Console.Clear();
-                if (driver.Url.Contains("dashboard.aspx"))
-                {
-                    if (IsElementPresent(By.XPath("//*[@id='popup']/img")))
-                    {
-                        driver.FindElement(By.XPath("//*[@id='popup']/img")).Click();
-                        Thread.Sleep(5000);
-                    }
-
-
-                    driver.FindElement(By.XPath(STConfigurations.Default.placeholder1)).Click();
-
-                }
+                driver.Navigate().GoToUrl(sitePath);
 
                 if (isManualLogin)
                 {
-                    var uname = IsElementPresent(By.XPath("//*[@id='popup']/img")) ? driver.FindElement(By.XPath("//*[@id='ctl00_lblUserID']")).Text : "0000";
+                    var uname = IsElementPresent(By.XPath("//*[@id='ctl00_lblUserID']")) ? driver.FindElement(By.XPath("//*[@id='ctl00_lblUserID']")).Text : "0000";
                     Authorization(uname);
                 }
             }
@@ -311,8 +303,11 @@ namespace STCrawler
                     {
                         strt = int.Parse(rows[0].Split(',')[0]);
                         stp = int.Parse(rows[0].Split(',')[1]);
-                        ExecuteClicks(strt: weLeftOn = strt, stp: stp, iterator: iterator);
-                        ExecuteClicks(strt: strt, stp: stp, iterator: 1, spl: "pendings");
+                        ExecuteClicks(strt: weLeftOn = strt, stp: stp, iterator: iterator, isMore: true);
+                        Console.Clear();
+                        ExecuteClicks(strt: strt, stp: stp, iterator: 1, spl: "pendings", isMore: true);
+                        Console.Clear();
+                        ExecuteClicks(strt: stp, stp: stp, iterator: iterator);
                     }
                     else if (linkNo.Contains("pendings"))
                     {
@@ -333,9 +328,12 @@ namespace STCrawler
             }
         }
 
-        public void ExecuteClicks(int strt, int stp, int iterator, string spl = "")
+        public void ExecuteClicks(int strt, int stp, int iterator, string spl = "", bool isMore = false)
         {
-            Console.WriteLine("Started @{0} for {1} to {2}", DateTime.Now.ToString("dd-MMM-yy hh:mm:ss tt"), strt, stp);
+            var uID = IsElementPresent(By.XPath("//*[@id='ctl00_lblUserID']")) ? driver.FindElement(By.XPath("//*[@id='ctl00_lblUserID']")).Text : "0000";
+            var uName = IsElementPresent(By.XPath("//*[@id='ctl00_lblUserName1']")) ? driver.FindElement(By.XPath("//*[@id='ctl00_lblUserName1']")).Text : "NA";
+
+            Console.WriteLine("Started for USERID: {3} Name: {4}  @{0} Range: {1} to {2}", DateTime.Now.ToString("dd-MMM-yy hh:mm:ss tt"), strt, stp, uID, uName);
             var linkNo = "0";
             stp += (1 * iterator);
             var mainWindow = driver.CurrentWindowHandle;
@@ -403,9 +401,10 @@ namespace STCrawler
                 strt += (1 * iterator);
             }
             Console.WriteLine(strt == stp ? "Task Completed" : "Task breaked at: {0}", strt);
-            Console.WriteLine("Completed @{0}", DateTime.Now.ToString("dd-MMM-yy hh:mm:ss tt"));
+            Console.WriteLine("Completed for USERID: {1} Name: {2} @{0}", DateTime.Now.ToString("dd-MMM-yy hh:mm:ss tt"), uID, uName);
             var r = strt == stp ? null : string.Join(",", strt, stp);
-            ContiClose(r);
+            if (!isMore)
+                ContiClose(r);
         }
 
         public void ExecuteClicks(string[] rows)

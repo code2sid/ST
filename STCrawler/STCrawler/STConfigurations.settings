@@ -15,7 +15,7 @@
       <Value Profile="(Default)">R3qPzdrsH5cG9m2Gk0A9ztxvqZzRVZT83vu3/DkvsVwPdxy9hEzVBoZ8g1Y4eeZLCVDkn8P/XLr6aW0fSsJZ6lwthCppneCd7/l98CYuAkBI/dv8ZFssWMZkK9L8fOgtwtSxTzO3p5C1299fzYUtAX/cAl1SbJXuTMJnYPk+96E=</Value>
     </Setting>
     <Setting Name="ST_URL" Type="System.String" Scope="User">
-      <Value Profile="(Default)">https://www.socialtrade.biz/</Value>
+      <Value Profile="(Default)">https://www.socialtrade.biz/User/EarnePoints.aspx</Value>
     </Setting>
     <Setting Name="theme" Type="System.String" Scope="User">
       <Value Profile="(Default)">sid</Value>
