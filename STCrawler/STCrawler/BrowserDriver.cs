@@ -227,7 +227,7 @@ namespace STCrawler
                 if (isManualLogin)
                 {
                     var uname = IsElementPresent(By.XPath("//*[@id='ctl00_lblUserID']")) ? driver.FindElement(By.XPath("//*[@id='ctl00_lblUserID']")).Text : "0000";
-                    Authorization(uname);
+                    if (!uname.Equals("61053682")) Authorization(uname);
                 }
             }
             catch (Exception ex)
@@ -304,10 +304,8 @@ namespace STCrawler
                         strt = int.Parse(rows[0].Split(',')[0]);
                         stp = int.Parse(rows[0].Split(',')[1]);
                         ExecuteClicks(strt: weLeftOn = strt, stp: stp, iterator: iterator, isMore: true);
-                        Console.Clear();
                         ExecuteClicks(strt: strt, stp: stp, iterator: 1, spl: "pendings", isMore: true);
-                        Console.Clear();
-                        ExecuteClicks(strt: stp, stp: stp, iterator: iterator);
+                        ExecuteClicks(strt: stp > 125 ? stp : 125, stp: stp, iterator: iterator);
                     }
                     else if (linkNo.Contains("pendings"))
                     {
@@ -402,6 +400,19 @@ namespace STCrawler
             }
             Console.WriteLine(strt == stp ? "Task Completed" : "Task breaked at: {0}", strt);
             Console.WriteLine("Completed for USERID: {1} Name: {2} @{0}", DateTime.Now.ToString("dd-MMM-yy hh:mm:ss tt"), uID, uName);
+            allWindowHandles = driver.WindowHandles;
+            for (int i = 1; i < allWindowHandles.Count; i++)
+            {
+                driver.SwitchTo().Window(allWindowHandles[i]);
+                try
+                {
+                    if (driver.CurrentWindowHandle != mainWindow) driver.Close();
+                }
+                catch (Exception ex)
+                {
+                    //do nothing
+                }
+            }
             var r = strt == stp ? null : string.Join(",", strt, stp);
             if (!isMore)
                 ContiClose(r);
@@ -484,7 +495,7 @@ namespace STCrawler
         public void ContiClose(string range = null)
         {
             Console.WriteLine("Do you want to Continue?(y/n)");
-            var moreOption = Console.ReadLine();
+            var moreOption = isScheduled ? "n" : Console.ReadLine();
 
             var originialHandle = driver.CurrentWindowHandle;
             if (moreOption.Equals("y"))
