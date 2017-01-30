@@ -27,7 +27,7 @@ namespace STCrawler
 
         public void Setup()
         {
-            Utilitiy.DeleteTempFiles();
+            //Utilitiy.DeleteTempFiles();
 
             ChromeDriverService service = null;
 
@@ -237,8 +237,8 @@ namespace STCrawler
                 Console.Clear();
             }
             Console.WriteLine("Please choose following options:1,2,3,4");
-            Console.WriteLine("1) Run Crawler from 1 to 250.");
-            Console.WriteLine("2) Run Crawler from 250 to 1.");
+            Console.WriteLine("1) Run Crawler from 1 to 200.");
+            Console.WriteLine("2) Run Crawler from 1 to 100.");
             Console.WriteLine("3) Run Crawler for Customized Range. ");
             Console.WriteLine("4) Run Crawler for Pendings. ");
             Console.Write("5) Run Crawler for Specific Rows.\n\n Enter your Option (1,2,3,4,5): ");
@@ -246,8 +246,8 @@ namespace STCrawler
             var choice = isScheduled ? "1" : Console.ReadLine();
             switch (choice)
             {
-                case "1": { linkNo = "1,250"; iterator = 1; break; }
-                case "2": { linkNo = "250,1"; iterator = -1; break; }
+                case "1": { linkNo = "1,200"; iterator = 1; break; }
+                case "2": { linkNo = "1,100"; iterator = 1; break; }
                 case "3":
                     {
                         Console.Write("Enter start stop separated by comma(,) (eg-1,100):  ");
@@ -305,7 +305,7 @@ namespace STCrawler
                         stp = int.Parse(rows[0].Split(',')[1]);
                         ExecuteClicks(strt: weLeftOn = strt, stp: stp, iterator: iterator, isMore: true);
                         ExecuteClicks(strt: strt, stp: stp, iterator: 1, spl: "pendings", isMore: true);
-                        ExecuteClicks(strt: stp > 125 ? stp : 125, stp: stp, iterator: iterator);
+                        ExecuteClicks(strt: stp, stp: stp, iterator: 1);
                     }
                     else if (linkNo.Contains("pendings"))
                     {
@@ -329,7 +329,7 @@ namespace STCrawler
         public void ExecuteClicks(int strt, int stp, int iterator, string spl = "", bool isMore = false)
         {
             var uID = IsElementPresent(By.XPath("//*[@id='ctl00_lblUserID']")) ? driver.FindElement(By.XPath("//*[@id='ctl00_lblUserID']")).Text : "0000";
-            var uName = IsElementPresent(By.XPath("//*[@id='ctl00_lblUserName1']")) ? driver.FindElement(By.XPath("//*[@id='ctl00_lblUserName1']")).Text : "NA";
+            var uName = IsElementPresent(By.XPath("//*[@id='iduser_profileName']")) ? driver.FindElement(By.XPath("//*[@id='iduser_profileName']")).Text : "NA";
 
             Console.WriteLine("Started for USERID: {3} Name: {4}  @{0} Range: {1} to {2}", DateTime.Now.ToString("dd-MMM-yy hh:mm:ss tt"), strt, stp, uID, uName);
             var linkNo = "0";
@@ -362,7 +362,7 @@ namespace STCrawler
                         strt += (iterator * -1);
                     }
 
-                    linkNo = driver.FindElements(By.XPath(string.Format(STConfigurations.Default.placeholder, strt)))[1].GetAttribute("id").Replace("hand_", "");
+                    linkNo = driver.FindElements(By.XPath(string.Format(STConfigurations.Default.placeholder, strt)))[0].GetAttribute("id").Replace("hand_", "");
                     if (!string.IsNullOrEmpty(linkNo) && !linkNo.Contains("facebook"))
                     {
                         js.ExecuteScript(string.Format("$('#hand_{0}').addClass('handIcon');", linkNo), null);
@@ -400,6 +400,7 @@ namespace STCrawler
             }
             Console.WriteLine(strt == stp ? "Task Completed" : "Task breaked at: {0}", strt);
             Console.WriteLine("Completed for USERID: {1} Name: {2} @{0}", DateTime.Now.ToString("dd-MMM-yy hh:mm:ss tt"), uID, uName);
+            Thread.Sleep(1000 * int.Parse(STConfigurations.Default.PopupWaitTiming));
             allWindowHandles = driver.WindowHandles;
             for (int i = 1; i < allWindowHandles.Count; i++)
             {
@@ -413,6 +414,7 @@ namespace STCrawler
                     //do nothing
                 }
             }
+            driver.SwitchTo().Window(allWindowHandles[0]);
             var r = strt == stp ? null : string.Join(",", strt, stp);
             if (!isMore)
                 ContiClose(r);
@@ -497,7 +499,6 @@ namespace STCrawler
             Console.WriteLine("Do you want to Continue?(y/n)");
             var moreOption = isScheduled ? "n" : Console.ReadLine();
 
-            var originialHandle = driver.CurrentWindowHandle;
             if (moreOption.Equals("y"))
             {
                 ClickController(false, range);
@@ -554,8 +555,6 @@ namespace STCrawler
                 return false;
             }
         }
-
-
     }
 
 

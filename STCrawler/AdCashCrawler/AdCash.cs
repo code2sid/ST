@@ -254,7 +254,8 @@ namespace AdCashCrawler
                             driver.FindElement(By.XPath("//*[@id='contact-form']/div[1]/div[1]/input")).SendKeys(username);
                             driver.FindElement(By.XPath("//*[@id='contact-form']/div[1]/div[2]/input")).SendKeys(password);
                             driver.FindElement(By.XPath("//*[@id='contact-form']/div[2]/button")).Click();
-                            driver.Navigate().GoToUrl(string.Format("{0}?act={1}", sitePath, strt));
+                            //driver.Navigate().GoToUrl(string.Format("{0}?act={1}", sitePath, strt));
+                            driver.Navigate().GoToUrl(sitePath);
                         }
 
                         driver.FindElement(By.XPath(@"//*[@id='page_content_inner']/div/div/div/div[2]/
@@ -266,7 +267,8 @@ namespace AdCashCrawler
                         //   Thread.Sleep(3000);
 
                         driver.FindElement(By.TagName("body")).SendKeys(Keys.Control + "t");
-                        driver.Navigate().GoToUrl(string.Format("{0}?act={1}", sitePath, strt));
+                        driver.Navigate().GoToUrl(sitePath);
+                        //driver.Navigate().GoToUrl(string.Format("{0}?act={1}", sitePath, strt));
                         strt += (1 * iterator);
                     }
                     else
@@ -279,7 +281,8 @@ namespace AdCashCrawler
                             driver.FindElement(By.XPath("//*[@id='contact-form']/div[1]/div[1]/input")).SendKeys(username);
                             driver.FindElement(By.XPath("//*[@id='contact-form']/div[1]/div[2]/input")).SendKeys(password);
                             driver.FindElement(By.XPath("//*[@id='contact-form']/div[2]/button")).Click();
-                            driver.Navigate().GoToUrl(string.Format("{0}?act={1}", sitePath, strt));
+                            driver.Navigate().GoToUrl(sitePath);
+                            //driver.Navigate().GoToUrl(string.Format("{0}?act={1}", sitePath, strt));
                         }
 
                         driver.FindElement(By.XPath(@"//*[@id='page_content_inner']/div/div/div/div[2]/
@@ -288,6 +291,7 @@ namespace AdCashCrawler
                         driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
                         driver.FindElement(By.XPath("//*[@id='submit_box']/input")).Click();
                         Console.WriteLine("clicked link:{0} ", strt);
+                        driver.Navigate().GoToUrl(sitePath);
 
                         tab--;
 
