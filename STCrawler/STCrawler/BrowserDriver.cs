@@ -25,6 +25,9 @@ namespace STCrawler
         bool isManualLogin = false;
         List<UserCredentials> admingrp = new List<UserCredentials>();
 
+        string clickButtonplaceholder = "//*[@id='ajax-content']/table[2]/tbody/tr[{0}]/td[4]/span[2]/span";
+        string parentButtonplaceholder = "//*[@id='ajax-content']/table[2]/tbody/tr[{0}]/td[4]/span[2]";
+
         public void Setup()
         {
             //Utilitiy.DeleteTempFiles();
@@ -105,7 +108,21 @@ namespace STCrawler
             Console.WriteLine("\n\nIts running for user: {0}", username);
             password = STConfigurations.Default.ST_UsernamePassword.Split('~')[1];
 
-            if (username.Equals("61053682") && Program.theme.Equals("sid"))
+
+            if (IsElementPresent(By.XPath(" //*[@id='agreeconditions']")))
+            {
+                driver.FindElement(By.XPath(" //*[@id='agreeconditions']")).Click();
+                Thread.Sleep(2000);
+                driver.FindElement(By.XPath(" //*[@id='linkweb']")).Click();
+            }
+
+            //*[@id="linkweb"]
+            if (IsElementPresent(By.XPath("//*[@id='form1']/div[3]/ul/li[2]/a")))
+                driver.FindElement(By.XPath("//*[@id='form1']/div[3]/ul/li[2]/a")).Click();
+
+
+
+            if (username.Equals("61053682"))
             {
                 Console.WriteLine("Hi Ruchi.. u r admin !!! no need of code");
                 string proxyDetails = proxy(admingrp);
@@ -127,18 +144,14 @@ namespace STCrawler
             }
 
             Console.WriteLine("\n\nLogging-in Please be patient...");
-
-            if (IsElementPresent(By.XPath("//*[@id='popup']/img")))
-                driver.FindElement(By.XPath("//*[@id='popup']/img")).Click();
-
-            Thread.Sleep(5000);
+            Thread.Sleep(2000);
 
             try
             {
                 driver.FindElement(By.XPath("//*[@id='txtEmailID']")).SendKeys(username);
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
                 driver.FindElement(By.XPath("//*[@id='txtPassword']")).SendKeys(password);
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
                 driver.FindElement(By.Name("CndSignIn")).Click();
             }
             catch (Exception ex)
@@ -222,6 +235,7 @@ namespace STCrawler
             try
             {
                 Console.Clear();
+                Thread.Sleep(10000);
                 driver.Navigate().GoToUrl(sitePath);
 
                 if (isManualLogin)
@@ -240,8 +254,7 @@ namespace STCrawler
             Console.WriteLine("1) Run Crawler from 1 to 200.");
             Console.WriteLine("2) Run Crawler from 1 to 100.");
             Console.WriteLine("3) Run Crawler for Customized Range. ");
-            Console.WriteLine("4) Run Crawler for Pendings. ");
-            Console.Write("5) Run Crawler for Specific Rows.\n\n Enter your Option (1,2,3,4,5): ");
+            Console.WriteLine("Enter your Option (1,2,3,4,5): ");
 
             var choice = isScheduled ? "1" : Console.ReadLine();
             switch (choice)
@@ -253,13 +266,6 @@ namespace STCrawler
                         Console.Write("Enter start stop separated by comma(,) (eg-1,100):  ");
                         linkNo = Console.ReadLine();
                         iterator = 1; break;
-                    }
-                case "4":
-                    {
-                        Console.Write("Enter start stop separated by comma(,) (eg-1,100):  ");
-                        linkNo = Console.ReadLine();
-                        linkNo += ",pendings";
-                        break;
                     }
 
                 case "5":
@@ -304,8 +310,7 @@ namespace STCrawler
                         strt = int.Parse(rows[0].Split(',')[0]);
                         stp = int.Parse(rows[0].Split(',')[1]);
                         ExecuteClicks(strt: weLeftOn = strt, stp: stp, iterator: iterator, isMore: true);
-                        ExecuteClicks(strt: strt, stp: stp, iterator: 1, spl: "pendings", isMore: true);
-                        ExecuteClicks(strt: stp, stp: stp, iterator: 1);
+                        ExecuteClicks(strt: weLeftOn = strt, stp: stp, iterator: iterator);
                     }
                     else if (linkNo.Contains("pendings"))
                     {
@@ -319,7 +324,7 @@ namespace STCrawler
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Re-run attempts = {0}", reAttempts = int.Parse(STConfigurations.Default.ReAttempts));
+                Console.WriteLine("Re-run attempts = {0}", reAttempts = 10);
                 TestConnection();
                 for (int reAttemCntr = 0; reAttemCntr < reAttempts; reAttemCntr++)
                     ExecuteClicks(strt: weLeftOn, stp: stp, iterator: iterator);
@@ -328,93 +333,60 @@ namespace STCrawler
 
         public void ExecuteClicks(int strt, int stp, int iterator, string spl = "", bool isMore = false)
         {
-            var uID = IsElementPresent(By.XPath("//*[@id='ctl00_lblUserID']")) ? driver.FindElement(By.XPath("//*[@id='ctl00_lblUserID']")).Text : "0000";
             var uName = IsElementPresent(By.XPath("//*[@id='iduser_profileName']")) ? driver.FindElement(By.XPath("//*[@id='iduser_profileName']")).Text : "NA";
+            js.ExecuteScript("$('.like_button').addClass('handIcon');", null);
+            int waitCntr = 0;
+            int tabCnt = 0;
 
-            Console.WriteLine("Started for USERID: {3} Name: {4}  @{0} Range: {1} to {2}", DateTime.Now.ToString("dd-MMM-yy hh:mm:ss tt"), strt, stp, uID, uName);
+            Console.WriteLine("Started for Name: {3}  @{0} Range: {1} to {2}", DateTime.Now.ToString("dd-MMM-yy hh:mm:ss tt"), strt, stp, uName);
             var linkNo = "0";
             stp += (1 * iterator);
-            var mainWindow = driver.CurrentWindowHandle;
+
+            try
+            {
+                linkNo = driver.FindElements(By.XPath(string.Format(clickButtonplaceholder, strt)))[0].GetAttribute("id").Replace("hand_", "");
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("page is not loaded.. Please manually load it and then hit enter !!!");
+                Console.ReadLine();
+            }
+
+
             while (strt != stp)
             {
                 try
                 {
-                    allWindowHandles = driver.WindowHandles;
-                    if (allWindowHandles.Count > int.Parse(STConfigurations.Default.ClosePopupsAfter))
-                    {
-                        Console.WriteLine("Please wait for ({0}) seconds closing popups...", STConfigurations.Default.PopupWaitTiming);
-                        Thread.Sleep(1000 * int.Parse(STConfigurations.Default.PopupWaitTiming));
-                        allWindowHandles = driver.WindowHandles;
-                        for (int i = 1; i < allWindowHandles.Count; i++)
-                        {
-                            driver.SwitchTo().Window(allWindowHandles[i]);
-                            try
-                            {
-                                if (driver.CurrentWindowHandle != mainWindow) driver.Close();
-                            }
-                            catch (Exception ex)
-                            {
-                                //do nothing
-                            }
-                        }
-
-                        driver.SwitchTo().Window(allWindowHandles[0]);
-                        strt += (iterator * -1);
-                    }
-
-                    linkNo = driver.FindElements(By.XPath(string.Format(STConfigurations.Default.placeholder, strt)))[0].GetAttribute("id").Replace("hand_", "");
+                    linkNo = driver.FindElements(By.XPath(string.Format(clickButtonplaceholder, strt)))[0].GetAttribute("id").Replace("hand_", "");
                     if (!string.IsNullOrEmpty(linkNo) && !linkNo.Contains("facebook"))
                     {
-                        js.ExecuteScript(string.Format("$('#hand_{0}').addClass('handIcon');", linkNo), null);
+                        //js.ExecuteScript(string.Format("$('#hand_{0}').addClass('handIcon');", linkNo), null);
                         js.ExecuteScript(string.Format("$('#hand_{0}').attr('onclick','updateTask({0},this)');", linkNo), null);
-                        if (spl.Equals("pendings")
-                            && driver.FindElements(By.XPath(string.Format(STConfigurations.Default.placeholder.Replace("td[4]/span", "td[3]/span"), strt)))[0].GetAttribute("id").Contains("pending"))
-                        {
-                            driver.FindElement(By.XPath(string.Format("//*[@id='hand_{0}']", linkNo))).Click();
-                        }
-                        else if (!spl.Equals("pendings"))
-                            driver.FindElement(By.XPath(string.Format("//*[@id='hand_{0}']", linkNo))).Click();
+                        driver.FindElement(By.XPath(string.Format("//*[@id='hand_{0}']", linkNo))).Click();
                         Console.WriteLine("clicked row:{0} link", strt);
+                        if (waitCntr > 10)
+                        {
+                            Thread.Sleep(1000 * int.Parse(STConfigurations.Default.WaitAfterClicks));
+                            waitCntr = 0;
+                        }
+                        waitCntr++;
+
                     }
                     else
-                    {
-                        ExecuteFlikes(linkNo.Replace("facebook_", ""), driver.FindElements(By.XPath(string.Format(STConfigurations.Default.placeholder, strt)))[1].GetAttribute("link"));
-                        Console.WriteLine("clicked row:{0} facebook link", strt);
-                    }
-
-                    if (opt.Equals("c"))
-                    {
-                        Thread.Sleep(5000);
-                    }
-
+                        Console.WriteLine("clicked row:{0} Already Clicked", strt);
 
 
                 }
                 catch (Exception e)
                 {
                     weLeftOn = strt--;
-                    break;
                 }
 
                 strt += (1 * iterator);
             }
             Console.WriteLine(strt == stp ? "Task Completed" : "Task breaked at: {0}", strt);
-            Console.WriteLine("Completed for USERID: {1} Name: {2} @{0}", DateTime.Now.ToString("dd-MMM-yy hh:mm:ss tt"), uID, uName);
-            Thread.Sleep(1000 * int.Parse(STConfigurations.Default.PopupWaitTiming));
-            allWindowHandles = driver.WindowHandles;
-            for (int i = 1; i < allWindowHandles.Count; i++)
-            {
-                driver.SwitchTo().Window(allWindowHandles[i]);
-                try
-                {
-                    if (driver.CurrentWindowHandle != mainWindow) driver.Close();
-                }
-                catch (Exception ex)
-                {
-                    //do nothing
-                }
-            }
-            driver.SwitchTo().Window(allWindowHandles[0]);
+            Console.WriteLine("Completed for Name: {1} @{0}", DateTime.Now.ToString("dd-MMM-yy hh:mm:ss tt"), uName);
+
             var r = strt == stp ? null : string.Join(",", strt, stp);
             if (!isMore)
                 ContiClose(r);
@@ -433,30 +405,8 @@ namespace STCrawler
                 linkNo = myCntr.ToString().Length < 2 ? string.Concat("0", myCntr) : myCntr.ToString();
                 try
                 {
-                    allWindowHandles = driver.WindowHandles;
-                    if (allWindowHandles.Count > int.Parse(STConfigurations.Default.ClosePopupsAfter))
-                    {
-                        Console.WriteLine("Please wait for ({0}) seconds closing popups...", STConfigurations.Default.PopupWaitTiming);
-                        Thread.Sleep(1000 * int.Parse(STConfigurations.Default.PopupWaitTiming));
-                        allWindowHandles = driver.WindowHandles;
-                        for (int i = 1; i < allWindowHandles.Count; i++)
-                        {
-                            driver.SwitchTo().Window(allWindowHandles[i]);
-                            try
-                            {
-                                if (driver.CurrentWindowHandle != mainWindow) driver.Close();
 
-                            }
-                            catch (Exception ex)
-                            {
-                                //do nothing
-                            }
-                        }
-
-                        driver.SwitchTo().Window(allWindowHandles[0]);
-                    }
-
-                    linkNo = driver.FindElements(By.XPath(string.Format(STConfigurations.Default.placeholder, row)))[1].GetAttribute("id").Replace("hand_", "");
+                    linkNo = driver.FindElements(By.XPath(string.Format(clickButtonplaceholder, row)))[1].GetAttribute("id").Replace("hand_", "");
                     if (!string.IsNullOrEmpty(linkNo) && !linkNo.Contains("facebook"))
                     {
                         js.ExecuteScript(string.Format("$('#hand_{0}').addClass('handIcon');", linkNo), null);
@@ -466,7 +416,7 @@ namespace STCrawler
                     }
                     else
                     {
-                        ExecuteFlikes(linkNo.Replace("facebook_", ""), driver.FindElements(By.XPath(string.Format(STConfigurations.Default.placeholder, row)))[1].GetAttribute("link"));
+                        ExecuteFlikes(linkNo.Replace("facebook_", ""), driver.FindElements(By.XPath(string.Format(clickButtonplaceholder, row)))[1].GetAttribute("link"));
                         Console.WriteLine("clicked row:{0} facebook link", row);
                     }
 
@@ -512,8 +462,6 @@ namespace STCrawler
             Console.Clear();
             Console.WriteLine("Have a break !!!! have a Kit-kat ;)");
             allWindowHandles = driver.WindowHandles;
-            Console.WriteLine("Please wait for ({0}) seconds closing popups...", STConfigurations.Default.PopupWaitTiming);
-            Thread.Sleep(1000 * int.Parse(STConfigurations.Default.PopupWaitTiming));
             for (int i = 1; i < allWindowHandles.Count; i++)
             {
                 driver.SwitchTo().Window(allWindowHandles[i]);
@@ -529,8 +477,6 @@ namespace STCrawler
 
             }
 
-            Console.WriteLine("Please wait for ({0}) seconds closing popups...", STConfigurations.Default.PopupWaitTiming);
-            Thread.Sleep(1000 * int.Parse(STConfigurations.Default.PopupWaitTiming));
 
             driver.SwitchTo().Window(allWindowHandles[0]);
             driver.Close();
