@@ -88,6 +88,8 @@ namespace STCrawler
             admingrp.Add(new UserCredentials { UserId = 61099880, Name = "Nidhi", Password = "nids@1234" });
             admingrp.Add(new UserCredentials { UserId = 61081007, Name = "Mum", Password = "Rbt@1234" });
             admingrp.Add(new UserCredentials { UserId = 61049490, Name = "Anjali", Password = "qwerty@27" });
+            admingrp.Add(new UserCredentials { UserId = 61274966, Name = "Anjali20links", Password = "qwerty@27" });
+            admingrp.Add(new UserCredentials { UserId = 61334986, Name = "Ruchi20links", Password = "smile@15" });
             admingrp.Add(new UserCredentials { UserId = 61099902, Name = "Disha", Password = "disha@123" });
 
             var user = admingrp.Where(grp => grp.UserId.ToString().Equals(username)).FirstOrDefault();
