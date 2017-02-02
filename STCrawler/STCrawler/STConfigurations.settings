@@ -15,7 +15,7 @@
       <Value Profile="(Default)">3</Value>
     </Setting>
     <Setting Name="ST_URL" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://www.frenzzup.com/User/EarnePoints.aspx</Value>
+      <Value Profile="(Default)">http://www.frenzzup.com/MyTimeLine.aspx#</Value>
     </Setting>
   </Settings>
 </SettingsFile>

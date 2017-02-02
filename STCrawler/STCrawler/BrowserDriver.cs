@@ -25,8 +25,9 @@ namespace STCrawler
         bool isManualLogin = false;
         List<UserCredentials> admingrp = new List<UserCredentials>();
 
-        string clickButtonplaceholder = "//*[@id='ajax-content']/table[2]/tbody/tr[{0}]/td[4]/span[2]/span";
-        string parentButtonplaceholder = "//*[@id='ajax-content']/table[2]/tbody/tr[{0}]/td[4]/span[2]";
+
+
+        string clickButtonplaceholder = "//*[@id='stpostdiv']/table[2]/tbody/tr[{0}]/td[4]/span[2]/span";
 
         public void Setup()
         {
@@ -34,36 +35,16 @@ namespace STCrawler
 
             ChromeDriverService service = null;
 
-            /*Console.WriteLine("Which driver (c/m)");
-            opt = isScheduled ? "m" : Console.ReadLine();
-            if (opt.ToLower().Contains("m"))
-                driver = new FirefoxDriver();
-            else if (opt.ToLower().Contains("c"))
-            {
-                Process chromeProcess = Process.GetProcessesByName("chrome")[0];
-
-                if (chromeProcess != null)
-                {
-
-                    if (!System.IO.File.Exists(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\chrome.exe"))
-                    {
-                        string chrmFolderSrc = chromeProcess.Modules[0].FileName.Replace("\\chrome.exe", "");
-                        string chrmFolderDest = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
-
-                        Utilitiy.DirectoryCopy(chrmFolderSrc, ".", true);
-                    }
-
-                    service = ChromeDriverService.CreateDefaultService(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location));
-                    service.Port = 90;
-                    driver = new ChromeDriver(service);
-                }
-            }
-
-            else*/
+           
             driver = new FirefoxDriver();
             js = (IJavaScriptExecutor)driver;
 
-
+            admingrp.Add(new UserCredentials { UserId = 61334986, Name = "Ruchi20", Password = "smile@15" });
+            admingrp.Add(new UserCredentials { UserId = 61274966, Name = "Anjali20", Password = "qwerty@27" });
+            admingrp.Add(new UserCredentials { UserId = 61099880, Name = "Nidhi", Password = "nids@1234" });
+            admingrp.Add(new UserCredentials { UserId = 61081007, Name = "Mum", Password = "Rbt@1234" });
+            admingrp.Add(new UserCredentials { UserId = 61049490, Name = "Anjali", Password = "qwerty@27" });
+            admingrp.Add(new UserCredentials { UserId = 61099902, Name = "Disha", Password = "disha@123" });
         }
 
         public void TestConnection()
@@ -85,12 +66,7 @@ namespace STCrawler
 
         public UserCredentials Authorization(string username)
         {
-            admingrp.Add(new UserCredentials { UserId = 61099880, Name = "Nidhi", Password = "nids@1234" });
-            admingrp.Add(new UserCredentials { UserId = 61081007, Name = "Mum", Password = "Rbt@1234" });
-            admingrp.Add(new UserCredentials { UserId = 61049490, Name = "Anjali", Password = "qwerty@27" });
-            admingrp.Add(new UserCredentials { UserId = 61274966, Name = "Anjali20links", Password = "qwerty@27" });
-            admingrp.Add(new UserCredentials { UserId = 61334986, Name = "Ruchi20links", Password = "smile@15" });
-            admingrp.Add(new UserCredentials { UserId = 61099902, Name = "Disha", Password = "disha@123" });
+           
 
             var user = admingrp.Where(grp => grp.UserId.ToString().Equals(username)).FirstOrDefault();
             if (user != null && !string.IsNullOrEmpty(user.Name))
@@ -311,7 +287,6 @@ namespace STCrawler
                     {
                         strt = int.Parse(rows[0].Split(',')[0]);
                         stp = int.Parse(rows[0].Split(',')[1]);
-                        ExecuteClicks(strt: weLeftOn = strt, stp: stp, iterator: iterator, isMore: true);
                         ExecuteClicks(strt: weLeftOn = strt, stp: stp, iterator: iterator);
                     }
                     else if (linkNo.Contains("pendings"))
@@ -335,6 +310,13 @@ namespace STCrawler
 
         public void ExecuteClicks(int strt, int stp, int iterator, string spl = "", bool isMore = false)
         {
+            if (IsElementPresent(By.XPath("//*[@id='Ul2']/li[3]/a")))
+                driver.FindElement(By.XPath("//*[@id='Ul2']/li[3]/a")).Click();
+            else
+            {
+                Console.WriteLine("Please click Connect wid pages and hit enter");
+                Console.ReadLine();
+            }
             var uName = IsElementPresent(By.XPath("//*[@id='iduser_profileName']")) ? driver.FindElement(By.XPath("//*[@id='iduser_profileName']")).Text : "NA";
             js.ExecuteScript("$('.like_button').addClass('handIcon');", null);
             int waitCntr = 0;
