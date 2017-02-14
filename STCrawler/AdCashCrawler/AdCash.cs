@@ -24,7 +24,7 @@ namespace AdCashCrawler
 
         public void Setup()
         {
-            Utilitiy.DeleteTempFiles();
+            //Utilitiy.DeleteTempFiles();
             /* ChromeDriverService service = null;
             Console.WriteLine("Which driver (c/m)");
             opt = isScheduled ? "m" : Console.ReadLine();
@@ -82,9 +82,11 @@ namespace AdCashCrawler
 
             List<UserCredentials> admingrp = new List<UserCredentials>();
             admingrp.Add(new UserCredentials { UserId = 67436159, Name = "Sugi", Password = "sugi@123" });
+            admingrp.Add(new UserCredentials { UserId = 43049775, Name = "Sugi2", Password = "angel@14" });
             admingrp.Add(new UserCredentials { UserId = 61049490, Name = "Anjali", Password = "qwerty@27" });
             admingrp.Add(new UserCredentials { UserId = 70926084, Name = "Sunny", Password = "disha@123" });
             admingrp.Add(new UserCredentials { UserId = 89936281, Name = "Nidhi", Password = "nids@1234" });
+            admingrp.Add(new UserCredentials { UserId = 38361891, Name = "renu", Password = "renu@123" });
 
             if (username.Equals("34119123"))
             {
@@ -261,11 +263,12 @@ namespace AdCashCrawler
                         driver.FindElement(By.XPath(@"//*[@id='page_content_inner']/div/div/div/div[2]/
                                                     div[1]/table/tbody/tr[1]/td/form/table/tbody/tr/td[2]/table/tbody/tr[2]/td[2]/a")).Click();
                         js.ExecuteScript("$('#submit_box').show()", null);
-                        driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
+                        driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(2));
                         driver.FindElement(By.XPath("//*[@id='submit_box']/input")).Click();
                         Console.WriteLine("clicked link:{0} ", strt);
                         //   Thread.Sleep(3000);
 
+                        driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(2));
                         driver.FindElement(By.TagName("body")).SendKeys(Keys.Control + "t");
                         driver.Navigate().GoToUrl(sitePath);
                         //driver.Navigate().GoToUrl(string.Format("{0}?act={1}", sitePath, strt));
@@ -274,6 +277,7 @@ namespace AdCashCrawler
                     else
                     {
                         driver.FindElement(By.TagName("body")).SendKeys(Keys.Control + "\t");
+                        driver.Navigate().GoToUrl(sitePath);
                         tab = tab == 0 ? 20 : tab;
 
                         if (driver.Url.Contains("login") || !driver.Url.Contains("adscash.in/userpanel/browsing_page_updated.php"))
@@ -288,18 +292,18 @@ namespace AdCashCrawler
                         driver.FindElement(By.XPath(@"//*[@id='page_content_inner']/div/div/div/div[2]/
                                                     div[1]/table/tbody/tr[1]/td/form/table/tbody/tr/td[2]/table/tbody/tr[2]/td[2]/a")).Click();
                         js.ExecuteScript("$('#submit_box').show()", null);
-                        driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
+                        driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(2));
                         driver.FindElement(By.XPath("//*[@id='submit_box']/input")).Click();
                         Console.WriteLine("clicked link:{0} ", strt);
-                        driver.Navigate().GoToUrl(sitePath);
 
                         tab--;
+                        strt += (1 * iterator);
 
                     }
                 }
                 catch (Exception e)
                 {
-                    weLeftOn = strt--;
+                    //do nothing...
                 }
 
             }
