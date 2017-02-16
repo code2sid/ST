@@ -187,7 +187,7 @@ namespace AdCashCrawler
 
             switch (choice)
             {
-                case "1": { linkNo = "1,250"; iterator = 1; break; }
+                case "1": { linkNo = "1,60"; iterator = 1; break; }
                 case "2":
                     {
                         Console.Write("Enter start stop separated by comma(,) (eg-1,100):  ");
